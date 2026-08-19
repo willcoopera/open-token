@@ -10,11 +10,11 @@ edition = "2021"
 [dependencies]
 chrono = "0.4.33"
 clap = "2.33.3"
-solana-clap-utils = { git = "https://github.com/willcoopera/openos",package = "solana-clap-utils" }
-solana-cli-config = { git = "https://github.com/willcoopera/openos",package = "solana-cli-config" }
-solana-client = { git = "https://github.com/willcoopera/openos",package = "solana-client" }
-solana-logger = { git = "https://github.com/willcoopera/openos",package = "solana-logger" }
-solana-sdk = { git = "https://github.com/willcoopera/openos",package="solana-sdk" }
+solana-clap-utils = { git="https://github.com/openlab-openos/openos",rev="29f65361a99e24c1a98505e55ccd2a8b79e50e2d", package = "solana-clap-utils" }
+solana-cli-config = { git="https://github.com/openlab-openos/openos",rev="29f65361a99e24c1a98505e55ccd2a8b79e50e2d", package = "solana-cli-config" }
+solana-client = { git="https://github.com/openlab-openos/openos",rev="29f65361a99e24c1a98505e55ccd2a8b79e50e2d", package = "solana-client" }
+solana-logger = { git="https://github.com/openlab-openos/openos",rev="29f65361a99e24c1a98505e55ccd2a8b79e50e2d", package = "solana-logger" }
+solana-sdk = { git="https://github.com/openlab-openos/openos",rev="29f65361a99e24c1a98505e55ccd2a8b79e50e2d", package="solana-sdk" }
 spl-feature-proposal = { version = "1.0", path = "../program", features = ["no-entrypoint"] }
 
 [[bin]]

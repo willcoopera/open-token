@@ -5,7 +5,7 @@ edition = "2021"
 
 [dependencies]
 arrayref = "0.3.7"
-solana-program ={ git = "https://github.com/willcoopera/openos",package="solana-program" }
+solana-program ={ git="https://github.com/openlab-openos/openos",rev="29f65361a99e24c1a98505e55ccd2a8b79e50e2d", package="solana-program" }
 spl-token = { version = "4.0", path = "../../token/program", features=["no-entrypoint"] }
 
 [lib]
