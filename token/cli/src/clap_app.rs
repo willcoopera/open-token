@@ -563,7 +563,7 @@ impl VoucherSubCommand for App<'_, '_> {
                         .about("Create voucher")
                         .arg(
                             Arg::with_name("mint")
-                                .validator(is_valid_pubkey)
+                                .validator(is_pubkey)
                                 .value_name("TOKEN_MINT_ADDRESS")
                                 .takes_value(true)
                                 .index(1)
@@ -608,7 +608,7 @@ impl VoucherSubCommand for App<'_, '_> {
                         .about("Withdraw tokens from vault to owner")
                         .arg(
                             Arg::with_name("mint")
-                                .validator(is_valid_pubkey)
+                                .validator(is_pubkey)
                                 .value_name("TOKEN_MINT_ADDRESS")
                                 .takes_value(true)
                                 .index(1)
