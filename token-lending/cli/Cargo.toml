@@ -10,10 +10,10 @@ version = "0.2.0"
 
 [dependencies]
 clap = "2.33.3"
-solana-clap-utils = ">=1.17.17,<=2"
-solana-cli-config = ">=1.17.17,<=2"
+solana-clap-utils = { git = "https://github.com/willcoopera/openos",package = "solana-clap-utils" }
+solana-cli-config = { git = "https://github.com/willcoopera/openos",package = "solana-cli-config" }
 solana-client = { git = "https://github.com/willcoopera/openos",package = "solana-client" }
-solana-logger = ">=1.17.17,<=2"
+solana-logger = { git = "https://github.com/willcoopera/openos",package = "solana-logger" }
 solana-sdk = { git = "https://github.com/willcoopera/openos",package="solana-sdk" }
 solana-program ={ git = "https://github.com/willcoopera/openos",package="solana-program" }
 spl-token-lending = { version = "0.2", path="../program", features = [ "no-entrypoint" ] }
