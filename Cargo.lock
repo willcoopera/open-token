@@ -6873,35 +6873,6 @@ dependencies = [
 
 [[package]]
 name = "solana-frozen-abi"
-version = "1.18.0"
-source = "git+https://github.com/openlab-openos/openos#33c1d00a9fb769ffd205b068416e89b87c347cce"
-dependencies = [
- "ahash 0.8.12",
- "blake3",
- "block-buffer 0.10.4",
- "bs58 0.4.0",
- "bv",
- "byteorder",
- "cc",
- "either",
- "generic-array",
- "im",
- "lazy_static",
- "log",
- "memmap2 0.5.10",
- "rustc_version",
- "serde",
- "serde_bytes",
- "serde_derive",
- "serde_json",
- "sha2 0.10.9",
- "solana-frozen-abi-macro 1.18.0",
- "subtle",
- "thiserror 1.0.69",
-]
-
-[[package]]
-name = "solana-frozen-abi"
 version = "1.18.26"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "03ab2c30c15311b511c0d1151e4ab6bc9a3e080a37e7c6e7c2d96f5784cf9434"
@@ -6929,17 +6900,6 @@ dependencies = [
 name = "solana-frozen-abi-macro"
 version = "1.17.28"
 source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
-dependencies = [
- "proc-macro2",
- "quote",
- "rustc_version",
- "syn 2.0.119",
-]
-
-[[package]]
-name = "solana-frozen-abi-macro"
-version = "1.18.0"
-source = "git+https://github.com/openlab-openos/openos#33c1d00a9fb769ffd205b068416e89b87c347cce"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -7226,16 +7186,6 @@ dependencies = [
 name = "solana-logger"
 version = "1.17.28"
 source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
-dependencies = [
- "env_logger",
- "lazy_static",
- "log",
-]
-
-[[package]]
-name = "solana-logger"
-version = "1.18.0"
-source = "git+https://github.com/openlab-openos/openos#33c1d00a9fb769ffd205b068416e89b87c347cce"
 dependencies = [
  "env_logger",
  "lazy_static",
@@ -7601,59 +7551,6 @@ dependencies = [
  "solana-frozen-abi 1.17.28",
  "solana-frozen-abi-macro 1.17.28",
  "solana-sdk-macro 1.17.28",
- "thiserror 1.0.69",
- "tiny-bip39",
- "wasm-bindgen",
- "zeroize",
-]
-
-[[package]]
-name = "solana-program"
-version = "1.18.0"
-source = "git+https://github.com/openlab-openos/openos#33c1d00a9fb769ffd205b068416e89b87c347cce"
-dependencies = [
- "ark-bn254",
- "ark-ec",
- "ark-ff",
- "ark-serialize",
- "base64 0.21.7",
- "bincode",
- "bitflags 2.13.1",
- "blake3",
- "borsh 0.9.3",
- "borsh 1.8.0",
- "bs58 0.4.0",
- "bv",
- "bytemuck",
- "cc",
- "console_error_panic_hook",
- "console_log",
- "curve25519-dalek 3.2.1",
- "getrandom 0.2.17",
- "itertools 0.10.5",
- "js-sys",
- "lazy_static",
- "libc",
- "libsecp256k1",
- "light-poseidon",
- "log",
- "memoffset 0.9.1",
- "num-bigint 0.4.8",
- "num-derive 0.4.2",
- "num-traits",
- "parking_lot 0.12.5",
- "rand 0.8.7",
- "rustc_version",
- "rustversion",
- "serde",
- "serde_bytes",
- "serde_derive",
- "serde_json",
- "sha2 0.10.9",
- "sha3 0.10.9",
- "solana-frozen-abi 1.18.0",
- "solana-frozen-abi-macro 1.18.0",
- "solana-sdk-macro 1.18.0",
  "thiserror 1.0.69",
  "tiny-bip39",
  "wasm-bindgen",
@@ -8528,60 +8425,6 @@ dependencies = [
 
 [[package]]
 name = "solana-sdk"
-version = "1.18.0"
-source = "git+https://github.com/openlab-openos/openos#33c1d00a9fb769ffd205b068416e89b87c347cce"
-dependencies = [
- "arbitrary",
- "assert_matches",
- "base64 0.21.7",
- "bincode",
- "bitflags 2.13.1",
- "borsh 1.8.0",
- "bs58 0.4.0",
- "bytemuck",
- "byteorder",
- "chrono",
- "derivation-path",
- "digest 0.10.7",
- "ed25519-dalek",
- "ed25519-dalek-bip32",
- "generic-array",
- "hmac 0.12.1",
- "itertools 0.10.5",
- "js-sys",
- "lazy_static",
- "libsecp256k1",
- "log",
- "memmap2 0.5.10",
- "num-derive 0.4.2",
- "num-traits",
- "num_enum 0.7.6",
- "pbkdf2 0.11.0",
- "qstring",
- "qualifier_attr",
- "rand 0.7.3",
- "rand 0.8.7",
- "rustc_version",
- "rustversion",
- "serde",
- "serde_bytes",
- "serde_derive",
- "serde_json",
- "serde_with 2.3.3",
- "sha2 0.10.9",
- "sha3 0.10.9",
- "solana-frozen-abi 1.18.0",
- "solana-frozen-abi-macro 1.18.0",
- "solana-logger 1.18.0",
- "solana-program 1.18.0",
- "solana-sdk-macro 1.18.0",
- "thiserror 1.0.69",
- "uriparse",
- "wasm-bindgen",
-]
-
-[[package]]
-name = "solana-sdk"
 version = "1.18.26"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "580ad66c2f7a4c3cb3244fe21440546bd500f5ecb955ad9826e92a78dded8009"
@@ -8648,18 +8491,6 @@ dependencies = [
 name = "solana-sdk-macro"
 version = "1.17.28"
 source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
-dependencies = [
- "bs58 0.4.0",
- "proc-macro2",
- "quote",
- "rustversion",
- "syn 2.0.119",
-]
-
-[[package]]
-name = "solana-sdk-macro"
-version = "1.18.0"
-source = "git+https://github.com/openlab-openos/openos#33c1d00a9fb769ffd205b068416e89b87c347cce"
 dependencies = [
  "bs58 0.4.0",
  "proc-macro2",
@@ -9698,34 +9529,6 @@ dependencies = [
 
 [[package]]
 name = "solana-zk-token-sdk"
-version = "1.18.0"
-source = "git+https://github.com/openlab-openos/openos#33c1d00a9fb769ffd205b068416e89b87c347cce"
-dependencies = [
- "aes-gcm-siv",
- "base64 0.21.7",
- "bincode",
- "bytemuck",
- "byteorder",
- "curve25519-dalek 3.2.1",
- "getrandom 0.1.16",
- "itertools 0.10.5",
- "lazy_static",
- "merlin",
- "num-derive 0.4.2",
- "num-traits",
- "rand 0.7.3",
- "serde",
- "serde_json",
- "sha3 0.9.1",
- "solana-program 1.18.0",
- "solana-sdk 1.18.0",
- "subtle",
- "thiserror 1.0.69",
- "zeroize",
-]
-
-[[package]]
-name = "solana-zk-token-sdk"
 version = "1.18.26"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7cbdf4249b6dfcbba7d84e2b53313698043f60f8e22ce48286e6fbe8a17c8d16"
@@ -9827,13 +9630,13 @@ dependencies = [
 [[package]]
 name = "spl-associated-token-account"
 version = "2.3.0"
-source = "git+https://github.com/willcoopera/open-token#fe134e7a3436eed0893e4ce0ce14cd7d43176454"
+source = "git+https://github.com/willcoopera/open-token#809ed4fa096d4a4fd4bdee96871aca2f24b1ddd6"
 dependencies = [
  "assert_matches",
  "borsh 0.10.4",
  "num-derive 0.4.2",
  "num-traits",
- "solana-program 1.18.0",
+ "solana-program 1.17.28",
  "spl-token 4.0.0 (git+https://github.com/willcoopera/open-token)",
  "spl-token-2022 2.0.0 (git+https://github.com/willcoopera/open-token)",
  "thiserror 1.0.69",
@@ -9903,10 +9706,10 @@ dependencies = [
 [[package]]
 name = "spl-discriminator"
 version = "0.1.0"
-source = "git+https://github.com/willcoopera/open-token#fe134e7a3436eed0893e4ce0ce14cd7d43176454"
+source = "git+https://github.com/willcoopera/open-token#809ed4fa096d4a4fd4bdee96871aca2f24b1ddd6"
 dependencies = [
  "bytemuck",
- "solana-program 1.18.0",
+ "solana-program 1.17.28",
  "spl-discriminator-derive 0.1.1 (git+https://github.com/willcoopera/open-token)",
 ]
 
@@ -9922,7 +9725,7 @@ dependencies = [
 [[package]]
 name = "spl-discriminator-derive"
 version = "0.1.1"
-source = "git+https://github.com/willcoopera/open-token#fe134e7a3436eed0893e4ce0ce14cd7d43176454"
+source = "git+https://github.com/willcoopera/open-token#809ed4fa096d4a4fd4bdee96871aca2f24b1ddd6"
 dependencies = [
  "quote",
  "spl-discriminator-syn 0.1.1 (git+https://github.com/willcoopera/open-token)",
@@ -9954,7 +9757,7 @@ dependencies = [
 [[package]]
 name = "spl-discriminator-syn"
 version = "0.1.1"
-source = "git+https://github.com/willcoopera/open-token#fe134e7a3436eed0893e4ce0ce14cd7d43176454"
+source = "git+https://github.com/willcoopera/open-token#809ed4fa096d4a4fd4bdee96871aca2f24b1ddd6"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -10162,7 +9965,7 @@ dependencies = [
  "serde",
  "serde_derive",
  "solana-program 1.17.28",
- "solana-program-test 1.18.26",
+ "solana-program-test 1.17.28",
  "solana-sdk 1.17.28",
  "spl-token 4.0.0",
  "thiserror 1.0.69",
@@ -10245,9 +10048,9 @@ dependencies = [
 [[package]]
 name = "spl-memo"
 version = "4.0.0"
-source = "git+https://github.com/willcoopera/open-token#fe134e7a3436eed0893e4ce0ce14cd7d43176454"
+source = "git+https://github.com/willcoopera/open-token#809ed4fa096d4a4fd4bdee96871aca2f24b1ddd6"
 dependencies = [
- "solana-program 1.18.0",
+ "solana-program 1.17.28",
 ]
 
 [[package]]
@@ -10301,12 +10104,12 @@ dependencies = [
 [[package]]
 name = "spl-pod"
 version = "0.1.0"
-source = "git+https://github.com/willcoopera/open-token#fe134e7a3436eed0893e4ce0ce14cd7d43176454"
+source = "git+https://github.com/willcoopera/open-token#809ed4fa096d4a4fd4bdee96871aca2f24b1ddd6"
 dependencies = [
  "borsh 0.10.4",
  "bytemuck",
- "solana-program 1.18.0",
- "solana-zk-token-sdk 1.18.0",
+ "solana-program 1.17.28",
+ "solana-zk-token-sdk 1.17.28",
  "spl-program-error 0.3.0 (git+https://github.com/willcoopera/open-token)",
 ]
 
@@ -10340,11 +10143,11 @@ dependencies = [
 [[package]]
 name = "spl-program-error"
 version = "0.3.0"
-source = "git+https://github.com/willcoopera/open-token#fe134e7a3436eed0893e4ce0ce14cd7d43176454"
+source = "git+https://github.com/willcoopera/open-token#809ed4fa096d4a4fd4bdee96871aca2f24b1ddd6"
 dependencies = [
  "num-derive 0.4.2",
  "num-traits",
- "solana-program 1.18.0",
+ "solana-program 1.17.28",
  "spl-program-error-derive 0.3.1 (git+https://github.com/willcoopera/open-token)",
  "thiserror 1.0.69",
 ]
@@ -10362,7 +10165,7 @@ dependencies = [
 [[package]]
 name = "spl-program-error-derive"
 version = "0.3.1"
-source = "git+https://github.com/willcoopera/open-token#fe134e7a3436eed0893e4ce0ce14cd7d43176454"
+source = "git+https://github.com/willcoopera/open-token#809ed4fa096d4a4fd4bdee96871aca2f24b1ddd6"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -10550,10 +10353,10 @@ dependencies = [
 [[package]]
 name = "spl-tlv-account-resolution"
 version = "0.5.1"
-source = "git+https://github.com/willcoopera/open-token#fe134e7a3436eed0893e4ce0ce14cd7d43176454"
+source = "git+https://github.com/willcoopera/open-token#809ed4fa096d4a4fd4bdee96871aca2f24b1ddd6"
 dependencies = [
  "bytemuck",
- "solana-program 1.18.0",
+ "solana-program 1.17.28",
  "spl-discriminator 0.1.0 (git+https://github.com/willcoopera/open-token)",
  "spl-pod 0.1.0 (git+https://github.com/willcoopera/open-token)",
  "spl-program-error 0.3.0 (git+https://github.com/willcoopera/open-token)",
@@ -10596,14 +10399,14 @@ dependencies = [
 [[package]]
 name = "spl-token"
 version = "4.0.0"
-source = "git+https://github.com/willcoopera/open-token#fe134e7a3436eed0893e4ce0ce14cd7d43176454"
+source = "git+https://github.com/willcoopera/open-token#809ed4fa096d4a4fd4bdee96871aca2f24b1ddd6"
 dependencies = [
  "arrayref",
  "bytemuck",
  "num-derive 0.4.2",
  "num-traits",
  "num_enum 0.6.1",
- "solana-program 1.18.0",
+ "solana-program 1.17.28",
  "thiserror 1.0.69",
 ]
 
@@ -10666,16 +10469,16 @@ dependencies = [
 [[package]]
 name = "spl-token-2022"
 version = "2.0.0"
-source = "git+https://github.com/willcoopera/open-token#fe134e7a3436eed0893e4ce0ce14cd7d43176454"
+source = "git+https://github.com/willcoopera/open-token#809ed4fa096d4a4fd4bdee96871aca2f24b1ddd6"
 dependencies = [
  "arrayref",
  "bytemuck",
  "num-derive 0.4.2",
  "num-traits",
  "num_enum 0.6.1",
- "solana-program 1.18.0",
+ "solana-program 1.17.28",
  "solana-security-txt",
- "solana-zk-token-sdk 1.18.0",
+ "solana-zk-token-sdk 1.17.28",
  "spl-memo 4.0.0 (git+https://github.com/willcoopera/open-token)",
  "spl-pod 0.1.0 (git+https://github.com/willcoopera/open-token)",
  "spl-token 4.0.0 (git+https://github.com/willcoopera/open-token)",
@@ -10839,10 +10642,10 @@ dependencies = [
 [[package]]
 name = "spl-token-group-interface"
 version = "0.1.0"
-source = "git+https://github.com/willcoopera/open-token#fe134e7a3436eed0893e4ce0ce14cd7d43176454"
+source = "git+https://github.com/willcoopera/open-token#809ed4fa096d4a4fd4bdee96871aca2f24b1ddd6"
 dependencies = [
  "bytemuck",
- "solana-program 1.18.0",
+ "solana-program 1.17.28",
  "spl-discriminator 0.1.0 (git+https://github.com/willcoopera/open-token)",
  "spl-pod 0.1.0 (git+https://github.com/willcoopera/open-token)",
  "spl-program-error 0.3.0 (git+https://github.com/willcoopera/open-token)",
@@ -10927,10 +10730,10 @@ dependencies = [
 [[package]]
 name = "spl-token-metadata-interface"
 version = "0.2.0"
-source = "git+https://github.com/willcoopera/open-token#fe134e7a3436eed0893e4ce0ce14cd7d43176454"
+source = "git+https://github.com/willcoopera/open-token#809ed4fa096d4a4fd4bdee96871aca2f24b1ddd6"
 dependencies = [
  "borsh 0.10.4",
- "solana-program 1.18.0",
+ "solana-program 1.17.28",
  "spl-discriminator 0.1.0 (git+https://github.com/willcoopera/open-token)",
  "spl-pod 0.1.0 (git+https://github.com/willcoopera/open-token)",
  "spl-program-error 0.3.0 (git+https://github.com/willcoopera/open-token)",
@@ -11094,11 +10897,11 @@ dependencies = [
 [[package]]
 name = "spl-transfer-hook-interface"
 version = "0.5.0"
-source = "git+https://github.com/willcoopera/open-token#fe134e7a3436eed0893e4ce0ce14cd7d43176454"
+source = "git+https://github.com/willcoopera/open-token#809ed4fa096d4a4fd4bdee96871aca2f24b1ddd6"
 dependencies = [
  "arrayref",
  "bytemuck",
- "solana-program 1.18.0",
+ "solana-program 1.17.28",
  "spl-discriminator 0.1.0 (git+https://github.com/willcoopera/open-token)",
  "spl-pod 0.1.0 (git+https://github.com/willcoopera/open-token)",
  "spl-program-error 0.3.0 (git+https://github.com/willcoopera/open-token)",
@@ -11134,10 +10937,10 @@ dependencies = [
 [[package]]
 name = "spl-type-length-value"
 version = "0.3.0"
-source = "git+https://github.com/willcoopera/open-token#fe134e7a3436eed0893e4ce0ce14cd7d43176454"
+source = "git+https://github.com/willcoopera/open-token#809ed4fa096d4a4fd4bdee96871aca2f24b1ddd6"
 dependencies = [
  "bytemuck",
- "solana-program 1.18.0",
+ "solana-program 1.17.28",
  "spl-discriminator 0.1.0 (git+https://github.com/willcoopera/open-token)",
  "spl-pod 0.1.0 (git+https://github.com/willcoopera/open-token)",
  "spl-program-error 0.3.0 (git+https://github.com/willcoopera/open-token)",

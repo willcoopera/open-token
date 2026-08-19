@@ -157,7 +157,7 @@ pub fn find_ephemeral_stake_program_address(
     )
 }
 
-solana_program::declare_id!("29t66NR7hWJUiQKJS1NNUy1ksrAC3yDVHPKg2gGt5oAh");
+solana_program::declare_id!("Cgc94EtZyQ2Z3BHdDZWgLtxRquH34Dr3k2MY6xcfBpr5");
 
 #[cfg(test)]
 mod test {

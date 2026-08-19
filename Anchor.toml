@@ -7,11 +7,11 @@ resolution = true
 skip-lint = false
 
 [programs.mainnet]
-spl_governance = "Bcuke23j9SiTYUkCdeBwC79whNEsWWrFqqx6nXa6aWq9"
-spl_governance_chat = "3NzbCCzNzGW3oSDbfWYsTkCPhAB2Q6qXyvfTtsSSUJ3e"
-spl_stake_pool = "29t66NR7hWJUiQKJS1NNUy1ksrAC3yDVHPKg2gGt5oAh"
-spl_token = "J3a1JCxbgYC8nyRx2J1x21PVeJGkwGZzb9xckGjHc4Zu"
-spl_token_2022 = "5Vjw73Xczib7qRQXULJHath12iQZRA1JrxWxxfFmhbX7"
+spl_governance = "6G1Bsnf5taoftkZdYrZsUsrZCg1dMwHSbeYUcNCupugy"
+spl_governance_chat = "33rKWSHgBtWtVqtnpUez6yqZHpcg4VBcMF3oCSCgA3gw"
+spl_stake_pool = "Cgc94EtZyQ2Z3BHdDZWgLtxRquH34Dr3k2MY6xcfBpr5"
+spl_token = "8JSFKEZf6KXeDsi8YUh8HiQ522YTAqmdGoj68LoxN7Xc"
+spl_token_2022 = "3gszLxdjDzdDxEJB4ZvfWVRE3n9GrJCsmWSSyrh7RSkz"
 
 [registry]
 url = "https://api.apr.dev"

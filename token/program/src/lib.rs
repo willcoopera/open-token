@@ -82,7 +82,7 @@ pub fn try_ui_amount_into_amount(ui_amount: String, decimals: u8) -> Result<u64,
         .map_err(|_| ProgramError::InvalidArgument)
 }
 
-solana_program::declare_id!("J3a1JCxbgYC8nyRx2J1x21PVeJGkwGZzb9xckGjHc4Zu");
+solana_program::declare_id!("8JSFKEZf6KXeDsi8YUh8HiQ522YTAqmdGoj68LoxN7Xc");
 
 /// Checks that the supplied program ID is the correct one for SPL-token
 pub fn check_program_account(spl_token_program_id: &Pubkey) -> ProgramResult {
