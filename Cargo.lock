@@ -596,7 +596,7 @@ version = "0.1.0"
 dependencies = [
  "arrayref",
  "borsh 0.10.4",
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-token 4.0.0",
  "thiserror 1.0.69",
  "uint",
@@ -1962,7 +1962,7 @@ name = "flash_loan_receiver"
 version = "1.0.0"
 dependencies = [
  "arrayref",
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-token 4.0.0",
 ]
 
@@ -3650,17 +3650,7 @@ version = "0.6.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7a015b430d3c108a207fd776d2e2196aaf8b1cf8cf93253e3a097ff3085076a1"
 dependencies = [
- "num_enum_derive 0.6.1",
-]
-
-[[package]]
-name = "num_enum"
-version = "0.7.6"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5d0bca838442ec211fa11de3a8b0e0e8f3a4522575b5c4c06ed722e005036f26"
-dependencies = [
- "num_enum_derive 0.7.6",
- "rustversion",
+ "num_enum_derive",
 ]
 
 [[package]]
@@ -3668,18 +3658,6 @@ name = "num_enum_derive"
 version = "0.6.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "96667db765a921f7b295ffee8b60472b686a51d4f21c2ee4ffdb94c7013b65a6"
-dependencies = [
- "proc-macro-crate 1.3.1",
- "proc-macro2",
- "quote",
- "syn 2.0.119",
-]
-
-[[package]]
-name = "num_enum_derive"
-version = "0.7.6"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "680998035259dcfcafe653688bf2aa6d3e2dc05e98be6ab46afb089dc84f1df8"
 dependencies = [
  "proc-macro-crate 1.3.1",
  "proc-macro2",
@@ -4590,18 +4568,18 @@ dependencies = [
 
 [[package]]
 name = "ref-cast"
-version = "1.0.26"
+version = "1.0.27"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "216e8f773d7923bcba9ceb86a86c93cabb3903a11872fc3f138c49630e50b96d"
+checksum = "7e440fb4e4b4147295338efb76001ab9e4efc0e5839df2c47fc5ac2381d365c3"
 dependencies = [
  "ref-cast-impl",
 ]
 
 [[package]]
 name = "ref-cast-impl"
-version = "1.0.26"
+version = "1.0.27"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2c9283685feec7d69af75fb0e858d5e7378f33fe4fc699383b2916ab9273e03c"
+checksum = "92ecd8964f8453721699a1ed72037b0db49ce2f5a5138486ee89bed6f67cdf3a"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -5472,7 +5450,7 @@ dependencies = [
 [[package]]
 name = "solana-account-decoder"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "Inflector",
  "base64 0.21.7",
@@ -5484,11 +5462,11 @@ dependencies = [
  "serde_derive",
  "serde_json",
  "solana-config-program",
- "solana-sdk 1.17.28",
- "spl-token 4.0.0 (git+https://github.com/openlab-openos/open-token)",
- "spl-token-2022 2.0.0 (git+https://github.com/openlab-openos/open-token)",
- "spl-token-group-interface 0.1.0 (git+https://github.com/openlab-openos/open-token)",
- "spl-token-metadata-interface 0.2.0 (git+https://github.com/openlab-openos/open-token)",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
+ "spl-token 4.0.0 (git+https://github.com/willcoopera/open-token)",
+ "spl-token-2022 2.0.0 (git+https://github.com/willcoopera/open-token)",
+ "spl-token-group-interface 0.1.0 (git+https://github.com/willcoopera/open-token)",
+ "spl-token-metadata-interface 0.2.0 (git+https://github.com/willcoopera/open-token)",
  "thiserror 1.0.69",
  "zstd",
 ]
@@ -5496,7 +5474,7 @@ dependencies = [
 [[package]]
 name = "solana-accounts-db"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "arrayref",
  "bincode",
@@ -5521,7 +5499,7 @@ dependencies = [
  "num-derive 0.3.3",
  "num-traits",
  "num_cpus",
- "num_enum 0.6.1",
+ "num_enum",
  "ouroboros",
  "percentage",
  "qualifier_attr",
@@ -5533,13 +5511,13 @@ dependencies = [
  "serde_derive",
  "solana-bucket-map",
  "solana-config-program",
- "solana-frozen-abi 1.17.28",
- "solana-frozen-abi-macro 1.17.28",
+ "solana-frozen-abi 1.17.28 (git+https://github.com/willcoopera/openos)",
+ "solana-frozen-abi-macro 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-measure",
  "solana-metrics",
  "solana-program-runtime",
  "solana-rayon-threadlimit",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-stake-program",
  "solana-system-program",
  "solana-vote-program",
@@ -5554,7 +5532,7 @@ dependencies = [
 [[package]]
 name = "solana-address-lookup-table-program"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "bincode",
  "bytemuck",
@@ -5563,24 +5541,24 @@ dependencies = [
  "num-traits",
  "rustc_version",
  "serde",
- "solana-frozen-abi 1.17.28",
- "solana-frozen-abi-macro 1.17.28",
- "solana-program 1.17.28",
+ "solana-frozen-abi 1.17.28 (git+https://github.com/willcoopera/openos)",
+ "solana-frozen-abi-macro 1.17.28 (git+https://github.com/willcoopera/openos)",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-program-runtime",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "thiserror 1.0.69",
 ]
 
 [[package]]
 name = "solana-banks-client"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "borsh 0.10.4",
  "futures 0.3.34",
  "solana-banks-interface",
- "solana-program 1.17.28",
- "solana-sdk 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "tarpc",
  "thiserror 1.0.69",
  "tokio",
@@ -5590,17 +5568,17 @@ dependencies = [
 [[package]]
 name = "solana-banks-interface"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "serde",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "tarpc",
 ]
 
 [[package]]
 name = "solana-banks-server"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "bincode",
  "crossbeam-channel",
@@ -5609,7 +5587,7 @@ dependencies = [
  "solana-banks-interface",
  "solana-client",
  "solana-runtime",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-send-transaction-service",
  "tarpc",
  "tokio",
@@ -5619,7 +5597,7 @@ dependencies = [
 [[package]]
 name = "solana-bloom"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "bv",
  "fnv",
@@ -5629,15 +5607,15 @@ dependencies = [
  "rustc_version",
  "serde",
  "serde_derive",
- "solana-frozen-abi 1.17.28",
- "solana-frozen-abi-macro 1.17.28",
- "solana-sdk 1.17.28",
+ "solana-frozen-abi 1.17.28 (git+https://github.com/willcoopera/openos)",
+ "solana-frozen-abi-macro 1.17.28 (git+https://github.com/willcoopera/openos)",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
 ]
 
 [[package]]
 name = "solana-bpf-loader-program"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "bincode",
  "byteorder",
@@ -5646,8 +5624,8 @@ dependencies = [
  "scopeguard",
  "solana-measure",
  "solana-program-runtime",
- "solana-sdk 1.17.28",
- "solana-zk-token-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
+ "solana-zk-token-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana_rbpf",
  "thiserror 1.0.69",
 ]
@@ -5655,30 +5633,30 @@ dependencies = [
 [[package]]
 name = "solana-bucket-map"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "bv",
  "bytemuck",
  "log",
  "memmap2 0.5.10",
  "modular-bitfield",
- "num_enum 0.6.1",
+ "num_enum",
  "rand 0.8.7",
  "solana-measure",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "tempfile",
 ]
 
 [[package]]
 name = "solana-clap-utils"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "chrono",
  "clap 2.34.0",
  "rpassword",
  "solana-remote-wallet",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "thiserror 1.0.69",
  "tiny-bip39",
  "uriparse",
@@ -5688,14 +5666,14 @@ dependencies = [
 [[package]]
 name = "solana-clap-v3-utils"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "chrono",
  "clap 3.2.25",
  "rpassword",
  "solana-remote-wallet",
- "solana-sdk 1.17.28",
- "solana-zk-token-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
+ "solana-zk-token-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "thiserror 1.0.69",
  "tiny-bip39",
  "uriparse",
@@ -5705,7 +5683,7 @@ dependencies = [
 [[package]]
 name = "solana-cli-config"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "dirs-next",
  "lazy_static",
@@ -5713,14 +5691,14 @@ dependencies = [
  "serde_derive",
  "serde_yaml",
  "solana-clap-utils",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "url 2.5.8",
 ]
 
 [[package]]
 name = "solana-cli-output"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "Inflector",
  "base64 0.21.7",
@@ -5737,16 +5715,16 @@ dependencies = [
  "solana-clap-utils",
  "solana-cli-config",
  "solana-rpc-client-api",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-transaction-status",
  "solana-vote-program",
- "spl-memo 4.0.0 (git+https://github.com/openlab-openos/open-token)",
+ "spl-memo 4.0.0 (git+https://github.com/willcoopera/open-token)",
 ]
 
 [[package]]
 name = "solana-client"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "async-trait",
  "bincode",
@@ -5766,7 +5744,7 @@ dependencies = [
  "solana-rpc-client",
  "solana-rpc-client-api",
  "solana-rpc-client-nonce-utils",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-streamer",
  "solana-thin-client",
  "solana-tpu-client",
@@ -5778,29 +5756,29 @@ dependencies = [
 [[package]]
 name = "solana-compute-budget-program"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "solana-program-runtime",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
 ]
 
 [[package]]
 name = "solana-config-program"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "bincode",
  "chrono",
  "serde",
  "serde_derive",
  "solana-program-runtime",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
 ]
 
 [[package]]
 name = "solana-connection-cache"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "async-trait",
  "bincode",
@@ -5813,7 +5791,7 @@ dependencies = [
  "rcgen",
  "solana-measure",
  "solana-metrics",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "thiserror 1.0.69",
  "tokio",
 ]
@@ -5821,7 +5799,7 @@ dependencies = [
 [[package]]
 name = "solana-core"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "base64 0.21.7",
  "bincode",
@@ -5839,7 +5817,7 @@ dependencies = [
  "log",
  "lru",
  "min-max-heap",
- "num_enum 0.6.1",
+ "num_enum",
  "quinn",
  "rand 0.8.7",
  "rand_chacha 0.3.1",
@@ -5856,8 +5834,8 @@ dependencies = [
  "solana-client",
  "solana-cost-model",
  "solana-entry",
- "solana-frozen-abi 1.17.28",
- "solana-frozen-abi-macro 1.17.28",
+ "solana-frozen-abi 1.17.28 (git+https://github.com/willcoopera/openos)",
+ "solana-frozen-abi-macro 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-geyser-plugin-manager",
  "solana-gossip",
  "solana-ledger",
@@ -5872,7 +5850,7 @@ dependencies = [
  "solana-rpc",
  "solana-rpc-client-api",
  "solana-runtime",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-send-transaction-service",
  "solana-streamer",
  "solana-tpu-client",
@@ -5894,7 +5872,7 @@ dependencies = [
 [[package]]
 name = "solana-cost-model"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "lazy_static",
  "log",
@@ -5903,12 +5881,12 @@ dependencies = [
  "solana-bpf-loader-program",
  "solana-compute-budget-program",
  "solana-config-program",
- "solana-frozen-abi 1.17.28",
- "solana-frozen-abi-macro 1.17.28",
+ "solana-frozen-abi 1.17.28 (git+https://github.com/willcoopera/openos)",
+ "solana-frozen-abi-macro 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-loader-v4-program",
  "solana-metrics",
  "solana-program-runtime",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-stake-program",
  "solana-system-program",
  "solana-vote-program",
@@ -5917,7 +5895,7 @@ dependencies = [
 [[package]]
 name = "solana-entry"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "bincode",
  "crossbeam-channel",
@@ -5932,13 +5910,13 @@ dependencies = [
  "solana-metrics",
  "solana-perf",
  "solana-rayon-threadlimit",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
 ]
 
 [[package]]
 name = "solana-faucet"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "bincode",
  "byteorder",
@@ -5949,11 +5927,11 @@ dependencies = [
  "serde_derive",
  "solana-clap-utils",
  "solana-cli-config",
- "solana-logger 1.17.28",
+ "solana-logger 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-metrics",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-version",
- "spl-memo 4.0.0 (git+https://github.com/openlab-openos/open-token)",
+ "spl-memo 4.0.0 (git+https://github.com/willcoopera/open-token)",
  "thiserror 1.0.69",
  "tokio",
 ]
@@ -5982,15 +5960,15 @@ dependencies = [
  "serde_derive",
  "serde_json",
  "sha2 0.10.9",
- "solana-frozen-abi-macro 1.17.28",
+ "solana-frozen-abi-macro 1.17.28 (git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d)",
  "subtle",
  "thiserror 1.0.69",
 ]
 
 [[package]]
 name = "solana-frozen-abi"
-version = "1.18.0"
-source = "git+https://github.com/openlab-openos/openos#33c1d00a9fb769ffd205b068416e89b87c347cce"
+version = "1.17.28"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "ahash 0.8.12",
  "blake3",
@@ -6011,7 +5989,7 @@ dependencies = [
  "serde_derive",
  "serde_json",
  "sha2 0.10.9",
- "solana-frozen-abi-macro 1.18.0",
+ "solana-frozen-abi-macro 1.17.28 (git+https://github.com/willcoopera/openos)",
  "subtle",
  "thiserror 1.0.69",
 ]
@@ -6054,8 +6032,8 @@ dependencies = [
 
 [[package]]
 name = "solana-frozen-abi-macro"
-version = "1.18.0"
-source = "git+https://github.com/openlab-openos/openos#33c1d00a9fb769ffd205b068416e89b87c347cce"
+version = "1.17.28"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -6078,10 +6056,10 @@ dependencies = [
 [[package]]
 name = "solana-geyser-plugin-interface"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "log",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-transaction-status",
  "thiserror 1.0.69",
 ]
@@ -6089,7 +6067,7 @@ dependencies = [
 [[package]]
 name = "solana-geyser-plugin-manager"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "bs58 0.4.0",
  "crossbeam-channel",
@@ -6107,7 +6085,7 @@ dependencies = [
  "solana-metrics",
  "solana-rpc",
  "solana-runtime",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-transaction-status",
  "thiserror 1.0.69",
 ]
@@ -6115,7 +6093,7 @@ dependencies = [
 [[package]]
 name = "solana-gossip"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "assert_matches",
  "bincode",
@@ -6140,17 +6118,17 @@ dependencies = [
  "solana-clap-utils",
  "solana-client",
  "solana-entry",
- "solana-frozen-abi 1.17.28",
- "solana-frozen-abi-macro 1.17.28",
+ "solana-frozen-abi 1.17.28 (git+https://github.com/willcoopera/openos)",
+ "solana-frozen-abi-macro 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-ledger",
- "solana-logger 1.17.28",
+ "solana-logger 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-measure",
  "solana-metrics",
  "solana-net-utils",
  "solana-perf",
  "solana-rayon-threadlimit",
  "solana-runtime",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-streamer",
  "solana-thin-client",
  "solana-tpu-client",
@@ -6164,7 +6142,7 @@ dependencies = [
 [[package]]
 name = "solana-ledger"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "assert_matches",
  "bincode",
@@ -6182,7 +6160,7 @@ dependencies = [
  "log",
  "lru",
  "num_cpus",
- "num_enum 0.6.1",
+ "num_enum",
  "prost",
  "rand 0.8.7",
  "rand_chacha 0.3.1",
@@ -6199,23 +6177,23 @@ dependencies = [
  "solana-bpf-loader-program",
  "solana-cost-model",
  "solana-entry",
- "solana-frozen-abi 1.17.28",
- "solana-frozen-abi-macro 1.17.28",
+ "solana-frozen-abi 1.17.28 (git+https://github.com/willcoopera/openos)",
+ "solana-frozen-abi-macro 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-measure",
  "solana-metrics",
  "solana-perf",
  "solana-program-runtime",
  "solana-rayon-threadlimit",
  "solana-runtime",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-stake-program",
  "solana-storage-bigtable",
  "solana-storage-proto",
  "solana-transaction-status",
  "solana-vote",
  "solana-vote-program",
- "spl-token 4.0.0 (git+https://github.com/openlab-openos/open-token)",
- "spl-token-2022 2.0.0 (git+https://github.com/openlab-openos/open-token)",
+ "spl-token 4.0.0 (git+https://github.com/willcoopera/open-token)",
+ "spl-token-2022 2.0.0 (git+https://github.com/willcoopera/open-token)",
  "static_assertions",
  "strum 0.24.1",
  "strum_macros 0.24.3",
@@ -6229,12 +6207,12 @@ dependencies = [
 [[package]]
 name = "solana-loader-v4-program"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "log",
  "solana-measure",
  "solana-program-runtime",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana_rbpf",
 ]
 
@@ -6250,8 +6228,8 @@ dependencies = [
 
 [[package]]
 name = "solana-logger"
-version = "1.18.0"
-source = "git+https://github.com/openlab-openos/openos#33c1d00a9fb769ffd205b068416e89b87c347cce"
+version = "1.17.28"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "env_logger",
  "lazy_static",
@@ -6261,39 +6239,39 @@ dependencies = [
 [[package]]
 name = "solana-measure"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "log",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
 ]
 
 [[package]]
 name = "solana-merkle-tree"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "fast-math",
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
 ]
 
 [[package]]
 name = "solana-metrics"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "crossbeam-channel",
  "gethostname",
  "lazy_static",
  "log",
  "reqwest 0.11.27",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "thiserror 1.0.69",
 ]
 
 [[package]]
 name = "solana-net-utils"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "bincode",
  "clap 3.2.25",
@@ -6304,8 +6282,8 @@ dependencies = [
  "serde",
  "serde_derive",
  "socket2 0.5.10",
- "solana-logger 1.17.28",
- "solana-sdk 1.17.28",
+ "solana-logger 1.17.28 (git+https://github.com/willcoopera/openos)",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-version",
  "tokio",
  "url 2.5.8",
@@ -6314,7 +6292,7 @@ dependencies = [
 [[package]]
 name = "solana-perf"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "ahash 0.8.12",
  "bincode",
@@ -6331,18 +6309,18 @@ dependencies = [
  "rayon",
  "rustc_version",
  "serde",
- "solana-frozen-abi 1.17.28",
- "solana-frozen-abi-macro 1.17.28",
+ "solana-frozen-abi 1.17.28 (git+https://github.com/willcoopera/openos)",
+ "solana-frozen-abi-macro 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-metrics",
  "solana-rayon-threadlimit",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-vote-program",
 ]
 
 [[package]]
 name = "solana-poh"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "core_affinity",
  "crossbeam-channel",
@@ -6352,7 +6330,7 @@ dependencies = [
  "solana-measure",
  "solana-metrics",
  "solana-runtime",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "thiserror 1.0.69",
 ]
 
@@ -6400,9 +6378,9 @@ dependencies = [
  "serde_json",
  "sha2 0.10.9",
  "sha3 0.10.9",
- "solana-frozen-abi 1.17.28",
- "solana-frozen-abi-macro 1.17.28",
- "solana-sdk-macro 1.17.28",
+ "solana-frozen-abi 1.17.28 (git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d)",
+ "solana-frozen-abi-macro 1.17.28 (git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d)",
+ "solana-sdk-macro 1.17.28 (git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d)",
  "thiserror 1.0.69",
  "tiny-bip39",
  "wasm-bindgen",
@@ -6411,8 +6389,8 @@ dependencies = [
 
 [[package]]
 name = "solana-program"
-version = "1.18.0"
-source = "git+https://github.com/openlab-openos/openos#33c1d00a9fb769ffd205b068416e89b87c347cce"
+version = "1.17.28"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "ark-bn254",
  "ark-ec",
@@ -6422,8 +6400,8 @@ dependencies = [
  "bincode",
  "bitflags 2.13.1",
  "blake3",
+ "borsh 0.10.4",
  "borsh 0.9.3",
- "borsh 1.8.0",
  "bs58 0.4.0",
  "bv",
  "bytemuck",
@@ -6441,7 +6419,7 @@ dependencies = [
  "log",
  "memoffset 0.9.1",
  "num-bigint 0.4.8",
- "num-derive 0.4.2",
+ "num-derive 0.3.3",
  "num-traits",
  "parking_lot 0.12.5",
  "rand 0.8.7",
@@ -6453,9 +6431,9 @@ dependencies = [
  "serde_json",
  "sha2 0.10.9",
  "sha3 0.10.9",
- "solana-frozen-abi 1.18.0",
- "solana-frozen-abi-macro 1.18.0",
- "solana-sdk-macro 1.18.0",
+ "solana-frozen-abi 1.17.28 (git+https://github.com/willcoopera/openos)",
+ "solana-frozen-abi-macro 1.17.28 (git+https://github.com/willcoopera/openos)",
+ "solana-sdk-macro 1.17.28 (git+https://github.com/willcoopera/openos)",
  "thiserror 1.0.69",
  "tiny-bip39",
  "wasm-bindgen",
@@ -6520,7 +6498,7 @@ dependencies = [
 [[package]]
 name = "solana-program-runtime"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "base64 0.21.7",
  "bincode",
@@ -6535,11 +6513,11 @@ dependencies = [
  "rand 0.8.7",
  "rustc_version",
  "serde",
- "solana-frozen-abi 1.17.28",
- "solana-frozen-abi-macro 1.17.28",
+ "solana-frozen-abi 1.17.28 (git+https://github.com/willcoopera/openos)",
+ "solana-frozen-abi-macro 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-measure",
  "solana-metrics",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana_rbpf",
  "thiserror 1.0.69",
 ]
@@ -6547,7 +6525,7 @@ dependencies = [
 [[package]]
 name = "solana-program-test"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "assert_matches",
  "async-trait",
@@ -6562,10 +6540,10 @@ dependencies = [
  "solana-banks-interface",
  "solana-banks-server",
  "solana-bpf-loader-program",
- "solana-logger 1.17.28",
+ "solana-logger 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-program-runtime",
  "solana-runtime",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-vote-program",
  "solana_rbpf",
  "test-case",
@@ -6576,7 +6554,7 @@ dependencies = [
 [[package]]
 name = "solana-pubsub-client"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "crossbeam-channel",
  "futures-util",
@@ -6588,7 +6566,7 @@ dependencies = [
  "serde_json",
  "solana-account-decoder",
  "solana-rpc-client-api",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "thiserror 1.0.69",
  "tokio",
  "tokio-stream",
@@ -6600,7 +6578,7 @@ dependencies = [
 [[package]]
 name = "solana-quic-client"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "async-mutex",
  "async-trait",
@@ -6617,7 +6595,7 @@ dependencies = [
  "solana-metrics",
  "solana-net-utils",
  "solana-rpc-client-api",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-streamer",
  "thiserror 1.0.69",
  "tokio",
@@ -6626,7 +6604,7 @@ dependencies = [
 [[package]]
 name = "solana-rayon-threadlimit"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "lazy_static",
  "num_cpus",
@@ -6635,7 +6613,7 @@ dependencies = [
 [[package]]
 name = "solana-remote-wallet"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "console",
  "dialoguer",
@@ -6646,7 +6624,7 @@ dependencies = [
  "parking_lot 0.12.5",
  "qstring",
  "semver",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "thiserror 1.0.69",
  "uriparse",
 ]
@@ -6654,7 +6632,7 @@ dependencies = [
 [[package]]
 name = "solana-rpc"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "base64 0.21.7",
  "bincode",
@@ -6689,7 +6667,7 @@ dependencies = [
  "solana-rayon-threadlimit",
  "solana-rpc-client-api",
  "solana-runtime",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-send-transaction-service",
  "solana-stake-program",
  "solana-storage-bigtable",
@@ -6699,8 +6677,8 @@ dependencies = [
  "solana-version",
  "solana-vote",
  "solana-vote-program",
- "spl-token 4.0.0 (git+https://github.com/openlab-openos/open-token)",
- "spl-token-2022 2.0.0 (git+https://github.com/openlab-openos/open-token)",
+ "spl-token 4.0.0 (git+https://github.com/willcoopera/open-token)",
+ "spl-token-2022 2.0.0 (git+https://github.com/willcoopera/open-token)",
  "stream-cancel",
  "thiserror 1.0.69",
  "tokio",
@@ -6710,7 +6688,7 @@ dependencies = [
 [[package]]
 name = "solana-rpc-client"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "async-trait",
  "base64 0.21.7",
@@ -6725,7 +6703,7 @@ dependencies = [
  "serde_json",
  "solana-account-decoder",
  "solana-rpc-client-api",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-transaction-status",
  "solana-version",
  "solana-vote-program",
@@ -6735,7 +6713,7 @@ dependencies = [
 [[package]]
 name = "solana-rpc-client-api"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "base64 0.21.7",
  "bs58 0.4.0",
@@ -6746,29 +6724,29 @@ dependencies = [
  "serde_derive",
  "serde_json",
  "solana-account-decoder",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-transaction-status",
  "solana-version",
- "spl-token-2022 2.0.0 (git+https://github.com/openlab-openos/open-token)",
+ "spl-token-2022 2.0.0 (git+https://github.com/willcoopera/open-token)",
  "thiserror 1.0.69",
 ]
 
 [[package]]
 name = "solana-rpc-client-nonce-utils"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "clap 2.34.0",
  "solana-clap-utils",
  "solana-rpc-client",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "thiserror 1.0.69",
 ]
 
 [[package]]
 name = "solana-runtime"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "arrayref",
  "base64 0.21.7",
@@ -6796,7 +6774,7 @@ dependencies = [
  "num-derive 0.3.3",
  "num-traits",
  "num_cpus",
- "num_enum 0.6.1",
+ "num_enum",
  "ouroboros",
  "percentage",
  "qualifier_attr",
@@ -6815,22 +6793,22 @@ dependencies = [
  "solana-compute-budget-program",
  "solana-config-program",
  "solana-cost-model",
- "solana-frozen-abi 1.17.28",
- "solana-frozen-abi-macro 1.17.28",
+ "solana-frozen-abi 1.17.28 (git+https://github.com/willcoopera/openos)",
+ "solana-frozen-abi-macro 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-loader-v4-program",
  "solana-measure",
  "solana-metrics",
  "solana-perf",
  "solana-program-runtime",
  "solana-rayon-threadlimit",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-stake-program",
  "solana-system-program",
  "solana-version",
  "solana-vote",
  "solana-vote-program",
  "solana-zk-token-proof-program",
- "solana-zk-token-sdk 1.17.28",
+ "solana-zk-token-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "static_assertions",
  "strum 0.24.1",
  "strum_macros 0.24.3",
@@ -6869,7 +6847,7 @@ dependencies = [
  "memmap2 0.5.10",
  "num-derive 0.3.3",
  "num-traits",
- "num_enum 0.6.1",
+ "num_enum",
  "pbkdf2 0.11.0",
  "qstring",
  "qualifier_attr",
@@ -6884,11 +6862,11 @@ dependencies = [
  "serde_with 2.3.3",
  "sha2 0.10.9",
  "sha3 0.10.9",
- "solana-frozen-abi 1.17.28",
- "solana-frozen-abi-macro 1.17.28",
- "solana-logger 1.17.28",
- "solana-program 1.17.28",
- "solana-sdk-macro 1.17.28",
+ "solana-frozen-abi 1.17.28 (git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d)",
+ "solana-frozen-abi-macro 1.17.28 (git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d)",
+ "solana-logger 1.17.28 (git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d)",
+ "solana-program 1.17.28 (git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d)",
+ "solana-sdk-macro 1.17.28 (git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d)",
  "thiserror 1.0.69",
  "uriparse",
  "wasm-bindgen",
@@ -6896,15 +6874,14 @@ dependencies = [
 
 [[package]]
 name = "solana-sdk"
-version = "1.18.0"
-source = "git+https://github.com/openlab-openos/openos#33c1d00a9fb769ffd205b068416e89b87c347cce"
+version = "1.17.28"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
- "arbitrary",
  "assert_matches",
  "base64 0.21.7",
  "bincode",
  "bitflags 2.13.1",
- "borsh 1.8.0",
+ "borsh 0.10.4",
  "bs58 0.4.0",
  "bytemuck",
  "byteorder",
@@ -6921,9 +6898,9 @@ dependencies = [
  "libsecp256k1",
  "log",
  "memmap2 0.5.10",
- "num-derive 0.4.2",
+ "num-derive 0.3.3",
  "num-traits",
- "num_enum 0.7.6",
+ "num_enum",
  "pbkdf2 0.11.0",
  "qstring",
  "qualifier_attr",
@@ -6938,11 +6915,11 @@ dependencies = [
  "serde_with 2.3.3",
  "sha2 0.10.9",
  "sha3 0.10.9",
- "solana-frozen-abi 1.18.0",
- "solana-frozen-abi-macro 1.18.0",
- "solana-logger 1.18.0",
- "solana-program 1.18.0",
- "solana-sdk-macro 1.18.0",
+ "solana-frozen-abi 1.17.28 (git+https://github.com/willcoopera/openos)",
+ "solana-frozen-abi-macro 1.17.28 (git+https://github.com/willcoopera/openos)",
+ "solana-logger 1.17.28 (git+https://github.com/willcoopera/openos)",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
+ "solana-sdk-macro 1.17.28 (git+https://github.com/willcoopera/openos)",
  "thiserror 1.0.69",
  "uriparse",
  "wasm-bindgen",
@@ -6962,8 +6939,8 @@ dependencies = [
 
 [[package]]
 name = "solana-sdk-macro"
-version = "1.18.0"
-source = "git+https://github.com/openlab-openos/openos#33c1d00a9fb769ffd205b068416e89b87c347cce"
+version = "1.17.28"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "bs58 0.4.0",
  "proc-macro2",
@@ -6994,7 +6971,7 @@ checksum = "c94a02d486b28f219a4f8f5d7dd93cbfbb93c9f466cb7871c22e50cd5ae9a7a2"
 [[package]]
 name = "solana-send-transaction-service"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "crossbeam-channel",
  "log",
@@ -7002,28 +6979,28 @@ dependencies = [
  "solana-measure",
  "solana-metrics",
  "solana-runtime",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-tpu-client",
 ]
 
 [[package]]
 name = "solana-stake-program"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "bincode",
  "log",
  "rustc_version",
  "solana-config-program",
  "solana-program-runtime",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-vote-program",
 ]
 
 [[package]]
 name = "solana-storage-bigtable"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "backoff",
  "bincode",
@@ -7044,7 +7021,7 @@ dependencies = [
  "serde_derive",
  "smpl_jwt",
  "solana-metrics",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-storage-proto",
  "solana-transaction-status",
  "thiserror 1.0.69",
@@ -7056,7 +7033,7 @@ dependencies = [
 [[package]]
 name = "solana-storage-proto"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "bincode",
  "bs58 0.4.0",
@@ -7064,7 +7041,7 @@ dependencies = [
  "protobuf-src",
  "serde",
  "solana-account-decoder",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-transaction-status",
  "tonic-build",
 ]
@@ -7072,7 +7049,7 @@ dependencies = [
 [[package]]
 name = "solana-streamer"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "async-channel",
  "bytes",
@@ -7094,7 +7071,7 @@ dependencies = [
  "rustls",
  "solana-metrics",
  "solana-perf",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "thiserror 1.0.69",
  "tokio",
  "x509-parser",
@@ -7103,20 +7080,20 @@ dependencies = [
 [[package]]
 name = "solana-system-program"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "bincode",
  "log",
  "serde",
  "serde_derive",
  "solana-program-runtime",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
 ]
 
 [[package]]
 name = "solana-test-validator"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "base64 0.21.7",
  "bincode",
@@ -7131,14 +7108,14 @@ dependencies = [
  "solana-geyser-plugin-manager",
  "solana-gossip",
  "solana-ledger",
- "solana-logger 1.17.28",
+ "solana-logger 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-net-utils",
  "solana-program-runtime",
  "solana-program-test",
  "solana-rpc",
  "solana-rpc-client",
  "solana-runtime",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-streamer",
  "solana-tpu-client",
  "tokio",
@@ -7147,7 +7124,7 @@ dependencies = [
 [[package]]
 name = "solana-thin-client"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "bincode",
  "log",
@@ -7155,13 +7132,13 @@ dependencies = [
  "solana-connection-cache",
  "solana-rpc-client",
  "solana-rpc-client-api",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
 ]
 
 [[package]]
 name = "solana-tpu-client"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "async-trait",
  "bincode",
@@ -7176,7 +7153,7 @@ dependencies = [
  "solana-pubsub-client",
  "solana-rpc-client",
  "solana-rpc-client-api",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "thiserror 1.0.69",
  "tokio",
 ]
@@ -7184,7 +7161,7 @@ dependencies = [
 [[package]]
 name = "solana-transaction-status"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "Inflector",
  "base64 0.21.7",
@@ -7197,18 +7174,18 @@ dependencies = [
  "serde_derive",
  "serde_json",
  "solana-account-decoder",
- "solana-sdk 1.17.28",
- "spl-associated-token-account 2.3.0 (git+https://github.com/openlab-openos/open-token)",
- "spl-memo 4.0.0 (git+https://github.com/openlab-openos/open-token)",
- "spl-token 4.0.0 (git+https://github.com/openlab-openos/open-token)",
- "spl-token-2022 2.0.0 (git+https://github.com/openlab-openos/open-token)",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
+ "spl-associated-token-account 2.3.0 (git+https://github.com/willcoopera/open-token)",
+ "spl-memo 4.0.0 (git+https://github.com/willcoopera/open-token)",
+ "spl-token 4.0.0 (git+https://github.com/willcoopera/open-token)",
+ "spl-token-2022 2.0.0 (git+https://github.com/willcoopera/open-token)",
  "thiserror 1.0.69",
 ]
 
 [[package]]
 name = "solana-turbine"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "bincode",
  "bytes",
@@ -7235,7 +7212,7 @@ dependencies = [
  "solana-rpc",
  "solana-rpc-client-api",
  "solana-runtime",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-streamer",
  "thiserror 1.0.69",
  "tokio",
@@ -7244,12 +7221,12 @@ dependencies = [
 [[package]]
 name = "solana-udp-client"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "async-trait",
  "solana-connection-cache",
  "solana-net-utils",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-streamer",
  "thiserror 1.0.69",
  "tokio",
@@ -7258,22 +7235,22 @@ dependencies = [
 [[package]]
 name = "solana-version"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "log",
  "rustc_version",
  "semver",
  "serde",
  "serde_derive",
- "solana-frozen-abi 1.17.28",
- "solana-frozen-abi-macro 1.17.28",
- "solana-sdk 1.17.28",
+ "solana-frozen-abi 1.17.28 (git+https://github.com/willcoopera/openos)",
+ "solana-frozen-abi-macro 1.17.28 (git+https://github.com/willcoopera/openos)",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
 ]
 
 [[package]]
 name = "solana-vote"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "crossbeam-channel",
  "itertools",
@@ -7281,9 +7258,9 @@ dependencies = [
  "rustc_version",
  "serde",
  "serde_derive",
- "solana-frozen-abi 1.17.28",
- "solana-frozen-abi-macro 1.17.28",
- "solana-sdk 1.17.28",
+ "solana-frozen-abi 1.17.28 (git+https://github.com/willcoopera/openos)",
+ "solana-frozen-abi-macro 1.17.28 (git+https://github.com/willcoopera/openos)",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-vote-program",
  "thiserror 1.0.69",
 ]
@@ -7291,7 +7268,7 @@ dependencies = [
 [[package]]
 name = "solana-vote-program"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "bincode",
  "log",
@@ -7300,26 +7277,26 @@ dependencies = [
  "rustc_version",
  "serde",
  "serde_derive",
- "solana-frozen-abi 1.17.28",
- "solana-frozen-abi-macro 1.17.28",
+ "solana-frozen-abi 1.17.28 (git+https://github.com/willcoopera/openos)",
+ "solana-frozen-abi-macro 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-metrics",
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-program-runtime",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "thiserror 1.0.69",
 ]
 
 [[package]]
 name = "solana-zk-token-proof-program"
 version = "1.17.28"
-source = "git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d#29f65361a99e24c1a98505e55ccd2a8b79e50e2d"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "bytemuck",
  "num-derive 0.3.3",
  "num-traits",
  "solana-program-runtime",
- "solana-sdk 1.17.28",
- "solana-zk-token-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
+ "solana-zk-token-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
 ]
 
 [[package]]
@@ -7343,8 +7320,8 @@ dependencies = [
  "serde",
  "serde_json",
  "sha3 0.9.1",
- "solana-program 1.17.28",
- "solana-sdk 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d)",
+ "solana-sdk 1.17.28 (git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d)",
  "subtle",
  "thiserror 1.0.69",
  "zeroize",
@@ -7352,8 +7329,8 @@ dependencies = [
 
 [[package]]
 name = "solana-zk-token-sdk"
-version = "1.18.0"
-source = "git+https://github.com/openlab-openos/openos#33c1d00a9fb769ffd205b068416e89b87c347cce"
+version = "1.17.28"
+source = "git+https://github.com/willcoopera/openos#e52d236b3cbbb240793c9c8fab489fc41ccc6ef2"
 dependencies = [
  "aes-gcm-siv",
  "base64 0.21.7",
@@ -7365,14 +7342,14 @@ dependencies = [
  "itertools",
  "lazy_static",
  "merlin",
- "num-derive 0.4.2",
+ "num-derive 0.3.3",
  "num-traits",
  "rand 0.7.3",
  "serde",
  "serde_json",
  "sha3 0.9.1",
- "solana-program 1.18.0",
- "solana-sdk 1.18.0",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "subtle",
  "thiserror 1.0.69",
  "zeroize",
@@ -7427,7 +7404,7 @@ dependencies = [
  "borsh 0.10.4",
  "num-derive 0.4.2",
  "num-traits",
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-token 4.0.0",
  "spl-token-2022 2.0.0",
  "thiserror 1.0.69",
@@ -7436,15 +7413,15 @@ dependencies = [
 [[package]]
 name = "spl-associated-token-account"
 version = "2.3.0"
-source = "git+https://github.com/openlab-openos/open-token#a48204b16d91a1eddddf7a4316a3186cd4d42b03"
+source = "git+https://github.com/willcoopera/open-token#dce8354bb0478d618544aed0df402bcc4d10436f"
 dependencies = [
  "assert_matches",
  "borsh 0.10.4",
  "num-derive 0.4.2",
  "num-traits",
- "solana-program 1.18.0",
- "spl-token 4.0.0 (git+https://github.com/openlab-openos/open-token)",
- "spl-token-2022 2.0.0 (git+https://github.com/openlab-openos/open-token)",
+ "solana-program 1.17.28 (git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d)",
+ "spl-token 4.0.0 (git+https://github.com/willcoopera/open-token)",
+ "spl-token-2022 2.0.0 (git+https://github.com/willcoopera/open-token)",
  "thiserror 1.0.69",
 ]
 
@@ -7452,9 +7429,9 @@ dependencies = [
 name = "spl-associated-token-account-test"
 version = "0.0.1"
 dependencies = [
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-program-test",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-associated-token-account 2.3.0",
  "spl-token 4.0.0",
  "spl-token-2022 2.0.0",
@@ -7467,9 +7444,9 @@ dependencies = [
  "borsh 0.10.4",
  "num-derive 0.4.2",
  "num-traits",
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-program-test",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-token 4.0.0",
  "thiserror 1.0.69",
  "uint",
@@ -7494,18 +7471,18 @@ version = "0.1.0"
 dependencies = [
  "borsh 0.10.4",
  "bytemuck",
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-discriminator-derive 0.1.1",
 ]
 
 [[package]]
 name = "spl-discriminator"
 version = "0.1.0"
-source = "git+https://github.com/openlab-openos/open-token#a48204b16d91a1eddddf7a4316a3186cd4d42b03"
+source = "git+https://github.com/willcoopera/open-token#dce8354bb0478d618544aed0df402bcc4d10436f"
 dependencies = [
  "bytemuck",
- "solana-program 1.18.0",
- "spl-discriminator-derive 0.1.1 (git+https://github.com/openlab-openos/open-token)",
+ "solana-program 1.17.28 (git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d)",
+ "spl-discriminator-derive 0.1.1 (git+https://github.com/willcoopera/open-token)",
 ]
 
 [[package]]
@@ -7520,10 +7497,10 @@ dependencies = [
 [[package]]
 name = "spl-discriminator-derive"
 version = "0.1.1"
-source = "git+https://github.com/openlab-openos/open-token#a48204b16d91a1eddddf7a4316a3186cd4d42b03"
+source = "git+https://github.com/willcoopera/open-token#dce8354bb0478d618544aed0df402bcc4d10436f"
 dependencies = [
  "quote",
- "spl-discriminator-syn 0.1.1 (git+https://github.com/openlab-openos/open-token)",
+ "spl-discriminator-syn 0.1.1 (git+https://github.com/willcoopera/open-token)",
  "syn 2.0.119",
 ]
 
@@ -7541,7 +7518,7 @@ dependencies = [
 [[package]]
 name = "spl-discriminator-syn"
 version = "0.1.1"
-source = "git+https://github.com/openlab-openos/open-token#a48204b16d91a1eddddf7a4316a3186cd4d42b03"
+source = "git+https://github.com/willcoopera/open-token#dce8354bb0478d618544aed0df402bcc4d10436f"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -7554,54 +7531,54 @@ dependencies = [
 name = "spl-example-cross-program-invocation"
 version = "1.0.0"
 dependencies = [
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-program-test",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
 ]
 
 [[package]]
 name = "spl-example-custom-heap"
 version = "1.0.0"
 dependencies = [
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-program-test",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
 ]
 
 [[package]]
 name = "spl-example-logging"
 version = "1.0.0"
 dependencies = [
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-program-test",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
 ]
 
 [[package]]
 name = "spl-example-sysvar"
 version = "1.0.0"
 dependencies = [
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-program-test",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
 ]
 
 [[package]]
 name = "spl-example-transfer-lamports"
 version = "1.0.0"
 dependencies = [
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-program-test",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
 ]
 
 [[package]]
 name = "spl-example-transfer-tokens"
 version = "1.0.0"
 dependencies = [
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-program-test",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-token 4.0.0",
 ]
 
@@ -7609,10 +7586,10 @@ dependencies = [
 name = "spl-feature-gate"
 version = "0.1.0"
 dependencies = [
- "num_enum 0.6.1",
- "solana-program 1.17.28",
+ "num_enum",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-program-test",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-program-error 0.3.0",
 ]
 
@@ -7621,9 +7598,9 @@ name = "spl-feature-proposal"
 version = "1.0.0"
 dependencies = [
  "borsh 0.10.4",
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-program-test",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-token 4.0.0",
 ]
 
@@ -7636,8 +7613,8 @@ dependencies = [
  "solana-clap-utils",
  "solana-cli-config",
  "solana-client",
- "solana-logger 1.17.28",
- "solana-sdk 1.17.28",
+ "solana-logger 1.17.28 (git+https://github.com/willcoopera/openos)",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-feature-proposal",
 ]
 
@@ -7655,9 +7632,9 @@ dependencies = [
  "proptest",
  "serde",
  "serde_derive",
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-program-test",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-governance-addin-api",
  "spl-governance-addin-mock",
  "spl-governance-test-sdk",
@@ -7671,7 +7648,7 @@ name = "spl-governance-addin-api"
 version = "0.1.4"
 dependencies = [
  "borsh 0.10.4",
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-governance-tools",
 ]
 
@@ -7688,9 +7665,9 @@ dependencies = [
  "proptest",
  "serde",
  "serde_derive",
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-program-test",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-governance-addin-api",
  "spl-governance-test-sdk",
  "spl-governance-tools",
@@ -7711,9 +7688,9 @@ dependencies = [
  "proptest",
  "serde",
  "serde_derive",
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-program-test",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-governance",
  "spl-governance-addin-api",
  "spl-governance-addin-mock",
@@ -7735,9 +7712,9 @@ dependencies = [
  "num-traits",
  "serde",
  "serde_derive",
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-program-test",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-token 4.0.0",
  "thiserror 1.0.69",
 ]
@@ -7753,7 +7730,7 @@ dependencies = [
  "num-traits",
  "serde",
  "serde_derive",
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-token 4.0.0",
  "thiserror 1.0.69",
 ]
@@ -7762,10 +7739,10 @@ dependencies = [
 name = "spl-instruction-padding"
 version = "0.1.0"
 dependencies = [
- "num_enum 0.6.1",
- "solana-program 1.17.28",
+ "num_enum",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-program-test",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
 ]
 
 [[package]]
@@ -7774,9 +7751,9 @@ version = "0.1.0"
 dependencies = [
  "borsh 0.10.4",
  "shank",
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-program-test",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-associated-token-account 2.3.0",
  "spl-token 4.0.0",
  "thiserror 1.0.69",
@@ -7791,9 +7768,9 @@ dependencies = [
  "num-derive 0.4.2",
  "num-traits",
  "proptest",
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-program-test",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "thiserror 1.0.69",
  "uint",
 ]
@@ -7802,17 +7779,17 @@ dependencies = [
 name = "spl-memo"
 version = "4.0.0"
 dependencies = [
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-program-test",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
 ]
 
 [[package]]
 name = "spl-memo"
 version = "4.0.0"
-source = "git+https://github.com/openlab-openos/open-token#a48204b16d91a1eddddf7a4316a3186cd4d42b03"
+source = "git+https://github.com/willcoopera/open-token#dce8354bb0478d618544aed0df402bcc4d10436f"
 dependencies = [
- "solana-program 1.18.0",
+ "solana-program 1.17.28 (git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d)",
 ]
 
 [[package]]
@@ -7830,9 +7807,9 @@ dependencies = [
  "borsh 0.10.4",
  "num-derive 0.4.2",
  "num-traits",
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-program-test",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "thiserror 1.0.69",
 ]
 
@@ -7845,21 +7822,21 @@ dependencies = [
  "bytemuck",
  "serde",
  "serde_json",
- "solana-program 1.17.28",
- "solana-zk-token-sdk 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
+ "solana-zk-token-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-program-error 0.3.0",
 ]
 
 [[package]]
 name = "spl-pod"
 version = "0.1.0"
-source = "git+https://github.com/openlab-openos/open-token#a48204b16d91a1eddddf7a4316a3186cd4d42b03"
+source = "git+https://github.com/willcoopera/open-token#dce8354bb0478d618544aed0df402bcc4d10436f"
 dependencies = [
  "borsh 0.10.4",
  "bytemuck",
- "solana-program 1.18.0",
- "solana-zk-token-sdk 1.18.0",
- "spl-program-error 0.3.0 (git+https://github.com/openlab-openos/open-token)",
+ "solana-program 1.17.28 (git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d)",
+ "solana-zk-token-sdk 1.17.28 (git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d)",
+ "spl-program-error 0.3.0 (git+https://github.com/willcoopera/open-token)",
 ]
 
 [[package]]
@@ -7870,8 +7847,8 @@ dependencies = [
  "num-derive 0.4.2",
  "num-traits",
  "serial_test",
- "solana-program 1.17.28",
- "solana-sdk 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-program-error-derive 0.3.1",
  "thiserror 1.0.69",
 ]
@@ -7879,12 +7856,12 @@ dependencies = [
 [[package]]
 name = "spl-program-error"
 version = "0.3.0"
-source = "git+https://github.com/openlab-openos/open-token#a48204b16d91a1eddddf7a4316a3186cd4d42b03"
+source = "git+https://github.com/willcoopera/open-token#dce8354bb0478d618544aed0df402bcc4d10436f"
 dependencies = [
  "num-derive 0.4.2",
  "num-traits",
- "solana-program 1.18.0",
- "spl-program-error-derive 0.3.1 (git+https://github.com/openlab-openos/open-token)",
+ "solana-program 1.17.28 (git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d)",
+ "spl-program-error-derive 0.3.1 (git+https://github.com/willcoopera/open-token)",
  "thiserror 1.0.69",
 ]
 
@@ -7901,7 +7878,7 @@ dependencies = [
 [[package]]
 name = "spl-program-error-derive"
 version = "0.3.1"
-source = "git+https://github.com/openlab-openos/open-token#a48204b16d91a1eddddf7a4316a3186cd4d42b03"
+source = "git+https://github.com/willcoopera/open-token#dce8354bb0478d618544aed0df402bcc4d10436f"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -7916,9 +7893,9 @@ dependencies = [
  "bytemuck",
  "num-derive 0.4.2",
  "num-traits",
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-program-test",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-pod 0.1.0",
  "thiserror 1.0.69",
 ]
@@ -7928,9 +7905,9 @@ name = "spl-shared-memory"
 version = "2.0.6"
 dependencies = [
  "arrayref",
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-program-test",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
 ]
 
 [[package]]
@@ -7943,11 +7920,11 @@ dependencies = [
  "borsh 0.10.4",
  "num-derive 0.4.2",
  "num-traits",
- "num_enum 0.6.1",
+ "num_enum",
  "rand 0.8.7",
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-program-test",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-security-txt",
  "solana-vote-program",
  "spl-associated-token-account 2.3.0",
@@ -7974,9 +7951,9 @@ dependencies = [
  "solana-cli-config",
  "solana-cli-output",
  "solana-client",
- "solana-logger 1.17.28",
+ "solana-logger 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-remote-wallet",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-test-validator",
  "solana-transaction-status",
  "solana-vote-program",
@@ -8000,13 +7977,13 @@ dependencies = [
  "bytemuck",
  "num-derive 0.4.2",
  "num-traits",
- "num_enum 0.6.1",
+ "num_enum",
  "proptest",
  "serde",
  "serde_derive",
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-program-test",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-security-txt",
  "solana-vote-program",
  "spl-math",
@@ -8033,10 +8010,10 @@ dependencies = [
  "solana-cli-config",
  "solana-cli-output",
  "solana-client",
- "solana-logger 1.17.28",
- "solana-program 1.17.28",
+ "solana-logger 1.17.28 (git+https://github.com/willcoopera/openos)",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-remote-wallet",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-associated-token-account 2.3.0",
  "spl-stake-pool",
  "spl-token 4.0.0",
@@ -8051,9 +8028,9 @@ dependencies = [
  "futures-util",
  "serde",
  "solana-client",
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-program-test",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-discriminator 0.1.0",
  "spl-pod 0.1.0",
  "spl-program-error 0.3.0",
@@ -8063,14 +8040,14 @@ dependencies = [
 [[package]]
 name = "spl-tlv-account-resolution"
 version = "0.5.1"
-source = "git+https://github.com/openlab-openos/open-token#a48204b16d91a1eddddf7a4316a3186cd4d42b03"
+source = "git+https://github.com/willcoopera/open-token#dce8354bb0478d618544aed0df402bcc4d10436f"
 dependencies = [
  "bytemuck",
- "solana-program 1.18.0",
- "spl-discriminator 0.1.0 (git+https://github.com/openlab-openos/open-token)",
- "spl-pod 0.1.0 (git+https://github.com/openlab-openos/open-token)",
- "spl-program-error 0.3.0 (git+https://github.com/openlab-openos/open-token)",
- "spl-type-length-value 0.3.0 (git+https://github.com/openlab-openos/open-token)",
+ "solana-program 1.17.28 (git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d)",
+ "spl-discriminator 0.1.0 (git+https://github.com/willcoopera/open-token)",
+ "spl-pod 0.1.0 (git+https://github.com/willcoopera/open-token)",
+ "spl-program-error 0.3.0 (git+https://github.com/willcoopera/open-token)",
+ "spl-type-length-value 0.3.0 (git+https://github.com/willcoopera/open-token)",
 ]
 
 [[package]]
@@ -8082,26 +8059,26 @@ dependencies = [
  "lazy_static",
  "num-derive 0.4.2",
  "num-traits",
- "num_enum 0.6.1",
+ "num_enum",
  "proptest",
  "serial_test",
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-program-test",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "thiserror 1.0.69",
 ]
 
 [[package]]
 name = "spl-token"
 version = "4.0.0"
-source = "git+https://github.com/openlab-openos/open-token#a48204b16d91a1eddddf7a4316a3186cd4d42b03"
+source = "git+https://github.com/willcoopera/open-token#dce8354bb0478d618544aed0df402bcc4d10436f"
 dependencies = [
  "arrayref",
  "bytemuck",
  "num-derive 0.4.2",
  "num-traits",
- "num_enum 0.6.1",
- "solana-program 1.18.0",
+ "num_enum",
+ "solana-program 1.17.28 (git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d)",
  "thiserror 1.0.69",
 ]
 
@@ -8115,17 +8092,17 @@ dependencies = [
  "lazy_static",
  "num-derive 0.4.2",
  "num-traits",
- "num_enum 0.6.1",
+ "num_enum",
  "proptest",
  "serde",
  "serde_json",
  "serde_with 3.22.0",
  "serial_test",
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-program-test",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-security-txt",
- "solana-zk-token-sdk 1.17.28",
+ "solana-zk-token-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-memo 4.0.0",
  "spl-pod 0.1.0",
  "spl-tlv-account-resolution 0.5.1",
@@ -8140,23 +8117,23 @@ dependencies = [
 [[package]]
 name = "spl-token-2022"
 version = "2.0.0"
-source = "git+https://github.com/openlab-openos/open-token#a48204b16d91a1eddddf7a4316a3186cd4d42b03"
+source = "git+https://github.com/willcoopera/open-token#dce8354bb0478d618544aed0df402bcc4d10436f"
 dependencies = [
  "arrayref",
  "bytemuck",
  "num-derive 0.4.2",
  "num-traits",
- "num_enum 0.6.1",
- "solana-program 1.18.0",
+ "num_enum",
+ "solana-program 1.17.28 (git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d)",
  "solana-security-txt",
- "solana-zk-token-sdk 1.18.0",
- "spl-memo 4.0.0 (git+https://github.com/openlab-openos/open-token)",
- "spl-pod 0.1.0 (git+https://github.com/openlab-openos/open-token)",
- "spl-token 4.0.0 (git+https://github.com/openlab-openos/open-token)",
- "spl-token-group-interface 0.1.0 (git+https://github.com/openlab-openos/open-token)",
- "spl-token-metadata-interface 0.2.0 (git+https://github.com/openlab-openos/open-token)",
- "spl-transfer-hook-interface 0.5.0 (git+https://github.com/openlab-openos/open-token)",
- "spl-type-length-value 0.3.0 (git+https://github.com/openlab-openos/open-token)",
+ "solana-zk-token-sdk 1.17.28 (git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d)",
+ "spl-memo 4.0.0 (git+https://github.com/willcoopera/open-token)",
+ "spl-pod 0.1.0 (git+https://github.com/willcoopera/open-token)",
+ "spl-token 4.0.0 (git+https://github.com/willcoopera/open-token)",
+ "spl-token-group-interface 0.1.0 (git+https://github.com/willcoopera/open-token)",
+ "spl-token-metadata-interface 0.2.0 (git+https://github.com/willcoopera/open-token)",
+ "spl-transfer-hook-interface 0.5.0 (git+https://github.com/willcoopera/open-token)",
+ "spl-type-length-value 0.3.0 (git+https://github.com/willcoopera/open-token)",
  "thiserror 1.0.69",
 ]
 
@@ -8167,9 +8144,9 @@ dependencies = [
  "async-trait",
  "borsh 0.10.4",
  "futures-util",
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-program-test",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-associated-token-account 2.3.0",
  "spl-instruction-padding",
  "spl-memo 4.0.0",
@@ -8208,9 +8185,9 @@ dependencies = [
  "solana-cli-config",
  "solana-cli-output",
  "solana-client",
- "solana-logger 1.17.28",
+ "solana-logger 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-remote-wallet",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-test-validator",
  "solana-transaction-status",
  "spl-associated-token-account 2.3.0",
@@ -8240,7 +8217,7 @@ dependencies = [
  "solana-program-test",
  "solana-rpc-client",
  "solana-rpc-client-api",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-associated-token-account 2.3.0",
  "spl-memo 4.0.0",
  "spl-token 4.0.0",
@@ -8255,9 +8232,9 @@ dependencies = [
 name = "spl-token-collection"
 version = "0.1.0"
 dependencies = [
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-program-test",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-discriminator 0.1.0",
  "spl-pod 0.1.0",
  "spl-program-error 0.3.0",
@@ -8273,9 +8250,9 @@ dependencies = [
 name = "spl-token-group-example"
 version = "0.1.0"
 dependencies = [
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-program-test",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-discriminator 0.1.0",
  "spl-pod 0.1.0",
  "spl-token-2022 2.0.0",
@@ -8290,7 +8267,7 @@ name = "spl-token-group-interface"
 version = "0.1.0"
 dependencies = [
  "bytemuck",
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-discriminator 0.1.0",
  "spl-pod 0.1.0",
  "spl-program-error 0.3.0",
@@ -8300,13 +8277,13 @@ dependencies = [
 [[package]]
 name = "spl-token-group-interface"
 version = "0.1.0"
-source = "git+https://github.com/openlab-openos/open-token#a48204b16d91a1eddddf7a4316a3186cd4d42b03"
+source = "git+https://github.com/willcoopera/open-token#dce8354bb0478d618544aed0df402bcc4d10436f"
 dependencies = [
  "bytemuck",
- "solana-program 1.18.0",
- "spl-discriminator 0.1.0 (git+https://github.com/openlab-openos/open-token)",
- "spl-pod 0.1.0 (git+https://github.com/openlab-openos/open-token)",
- "spl-program-error 0.3.0 (git+https://github.com/openlab-openos/open-token)",
+ "solana-program 1.17.28 (git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d)",
+ "spl-discriminator 0.1.0 (git+https://github.com/willcoopera/open-token)",
+ "spl-pod 0.1.0 (git+https://github.com/willcoopera/open-token)",
+ "spl-program-error 0.3.0 (git+https://github.com/willcoopera/open-token)",
 ]
 
 [[package]]
@@ -8319,9 +8296,9 @@ dependencies = [
  "num-derive 0.4.2",
  "num-traits",
  "proptest",
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-program-test",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-token 4.0.0",
  "thiserror 1.0.69",
  "uint",
@@ -8335,9 +8312,9 @@ dependencies = [
  "solana-clap-utils",
  "solana-cli-config",
  "solana-client",
- "solana-logger 1.17.28",
- "solana-program 1.17.28",
- "solana-sdk 1.17.28",
+ "solana-logger 1.17.28 (git+https://github.com/willcoopera/openos)",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-token 4.0.0",
  "spl-token-lending",
 ]
@@ -8346,9 +8323,9 @@ dependencies = [
 name = "spl-token-metadata-example"
 version = "0.2.0"
 dependencies = [
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-program-test",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-pod 0.1.0",
  "spl-token-2022 2.0.0",
  "spl-token-client",
@@ -8364,7 +8341,7 @@ dependencies = [
  "borsh 0.10.4",
  "serde",
  "serde_json",
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-discriminator 0.1.0",
  "spl-pod 0.1.0",
  "spl-program-error 0.3.0",
@@ -8374,14 +8351,14 @@ dependencies = [
 [[package]]
 name = "spl-token-metadata-interface"
 version = "0.2.0"
-source = "git+https://github.com/openlab-openos/open-token#a48204b16d91a1eddddf7a4316a3186cd4d42b03"
+source = "git+https://github.com/willcoopera/open-token#dce8354bb0478d618544aed0df402bcc4d10436f"
 dependencies = [
  "borsh 0.10.4",
- "solana-program 1.18.0",
- "spl-discriminator 0.1.0 (git+https://github.com/openlab-openos/open-token)",
- "spl-pod 0.1.0 (git+https://github.com/openlab-openos/open-token)",
- "spl-program-error 0.3.0 (git+https://github.com/openlab-openos/open-token)",
- "spl-type-length-value 0.3.0 (git+https://github.com/openlab-openos/open-token)",
+ "solana-program 1.17.28 (git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d)",
+ "spl-discriminator 0.1.0 (git+https://github.com/willcoopera/open-token)",
+ "spl-pod 0.1.0 (git+https://github.com/willcoopera/open-token)",
+ "spl-program-error 0.3.0 (git+https://github.com/willcoopera/open-token)",
+ "spl-type-length-value 0.3.0 (git+https://github.com/willcoopera/open-token)",
 ]
 
 [[package]]
@@ -8395,8 +8372,8 @@ dependencies = [
  "num-traits",
  "proptest",
  "roots",
- "solana-program 1.17.28",
- "solana-sdk 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-math",
  "spl-token 4.0.0",
  "spl-token-2022 2.0.0",
@@ -8410,7 +8387,7 @@ version = "0.0.1"
 dependencies = [
  "arbitrary",
  "honggfuzz",
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-math",
  "spl-token 4.0.0",
  "spl-token-swap",
@@ -8422,10 +8399,10 @@ version = "0.1.1"
 dependencies = [
  "num-derive 0.4.2",
  "num-traits",
- "num_enum 0.6.1",
- "solana-program 1.17.28",
+ "num_enum",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-program-test",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-token 4.0.0",
  "spl-token-2022 2.0.0",
  "spl-token-client",
@@ -8442,9 +8419,9 @@ dependencies = [
  "solana-clap-v3-utils",
  "solana-cli-config",
  "solana-client",
- "solana-logger 1.17.28",
+ "solana-logger 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-remote-wallet",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-test-validator",
  "spl-associated-token-account 2.3.0",
  "spl-token 4.0.0",
@@ -8460,8 +8437,8 @@ name = "spl-token-wrap"
 version = "0.1.0"
 dependencies = [
  "bytemuck",
- "num_enum 0.6.1",
- "solana-program 1.17.28",
+ "num_enum",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-associated-token-account 2.3.0",
  "spl-token 4.0.0",
  "spl-token-2022 2.0.0",
@@ -8480,9 +8457,9 @@ dependencies = [
  "solana-clap-v3-utils",
  "solana-cli-config",
  "solana-client",
- "solana-logger 1.17.28",
+ "solana-logger 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-remote-wallet",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-test-validator",
  "spl-tlv-account-resolution 0.5.1",
  "spl-token-2022 2.0.0",
@@ -8498,9 +8475,9 @@ name = "spl-transfer-hook-example"
 version = "0.5.0"
 dependencies = [
  "arrayref",
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-program-test",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-tlv-account-resolution 0.5.1",
  "spl-token-2022 2.0.0",
  "spl-transfer-hook-interface 0.5.0",
@@ -8513,7 +8490,7 @@ version = "0.5.0"
 dependencies = [
  "arrayref",
  "bytemuck",
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-discriminator 0.1.0",
  "spl-pod 0.1.0",
  "spl-program-error 0.3.0",
@@ -8525,16 +8502,16 @@ dependencies = [
 [[package]]
 name = "spl-transfer-hook-interface"
 version = "0.5.0"
-source = "git+https://github.com/openlab-openos/open-token#a48204b16d91a1eddddf7a4316a3186cd4d42b03"
+source = "git+https://github.com/willcoopera/open-token#dce8354bb0478d618544aed0df402bcc4d10436f"
 dependencies = [
  "arrayref",
  "bytemuck",
- "solana-program 1.18.0",
- "spl-discriminator 0.1.0 (git+https://github.com/openlab-openos/open-token)",
- "spl-pod 0.1.0 (git+https://github.com/openlab-openos/open-token)",
- "spl-program-error 0.3.0 (git+https://github.com/openlab-openos/open-token)",
- "spl-tlv-account-resolution 0.5.1 (git+https://github.com/openlab-openos/open-token)",
- "spl-type-length-value 0.3.0 (git+https://github.com/openlab-openos/open-token)",
+ "solana-program 1.17.28 (git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d)",
+ "spl-discriminator 0.1.0 (git+https://github.com/willcoopera/open-token)",
+ "spl-pod 0.1.0 (git+https://github.com/willcoopera/open-token)",
+ "spl-program-error 0.3.0 (git+https://github.com/willcoopera/open-token)",
+ "spl-tlv-account-resolution 0.5.1 (git+https://github.com/willcoopera/open-token)",
+ "spl-type-length-value 0.3.0 (git+https://github.com/willcoopera/open-token)",
 ]
 
 [[package]]
@@ -8542,7 +8519,7 @@ name = "spl-type-length-value"
 version = "0.3.0"
 dependencies = [
  "bytemuck",
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-discriminator 0.1.0",
  "spl-pod 0.1.0",
  "spl-program-error 0.3.0",
@@ -8552,13 +8529,13 @@ dependencies = [
 [[package]]
 name = "spl-type-length-value"
 version = "0.3.0"
-source = "git+https://github.com/openlab-openos/open-token#a48204b16d91a1eddddf7a4316a3186cd4d42b03"
+source = "git+https://github.com/willcoopera/open-token#dce8354bb0478d618544aed0df402bcc4d10436f"
 dependencies = [
  "bytemuck",
- "solana-program 1.18.0",
- "spl-discriminator 0.1.0 (git+https://github.com/openlab-openos/open-token)",
- "spl-pod 0.1.0 (git+https://github.com/openlab-openos/open-token)",
- "spl-program-error 0.3.0 (git+https://github.com/openlab-openos/open-token)",
+ "solana-program 1.17.28 (git+https://github.com/openlab-openos/openos?rev=29f65361a99e24c1a98505e55ccd2a8b79e50e2d)",
+ "spl-discriminator 0.1.0 (git+https://github.com/willcoopera/open-token)",
+ "spl-pod 0.1.0 (git+https://github.com/willcoopera/open-token)",
+ "spl-program-error 0.3.0 (git+https://github.com/willcoopera/open-token)",
 ]
 
 [[package]]
@@ -8591,9 +8568,9 @@ name = "stateless-asks"
 version = "0.1.0"
 dependencies = [
  "borsh 0.10.4",
- "solana-program 1.17.28",
+ "solana-program 1.17.28 (git+https://github.com/willcoopera/openos)",
  "solana-program-test",
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-associated-token-account 2.3.0",
  "spl-token 4.0.0",
  "thiserror 1.0.69",
@@ -8904,7 +8881,7 @@ dependencies = [
 name = "test-client"
 version = "0.1.0"
 dependencies = [
- "solana-sdk 1.17.28",
+ "solana-sdk 1.17.28 (git+https://github.com/willcoopera/openos)",
  "spl-memo 4.0.0",
  "spl-token 4.0.0",
  "spl-token-swap",

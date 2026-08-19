@@ -9,7 +9,7 @@ no-entrypoint = []
 test-sbf = []
 
 [dependencies]
-solana-program ={ git="https://github.com/openlab-openos/openos",rev="29f65361a99e24c1a98505e55ccd2a8b79e50e2d", package="solana-program" }
+solana-program ={ git="https://github.com/willcoopera/openos", package="solana-program" }
 thiserror = "1.0"
 spl-token = {version = "4.0", path = "../../token/program", features = ["no-entrypoint"]}
 arrayref = "0.3.7"
