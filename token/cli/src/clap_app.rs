@@ -562,37 +562,31 @@ impl VoucherSubCommand for App<'_, '_> {
                     SubCommand::with_name("create")
                         .about("Create voucher")
                         .arg(
-                            Arg::with_name("name")
-                                .value_name("Name")
+                            Arg::with_name("mint")
+                                .validator(is_valid_pubkey)
+                                .value_name("TOKEN_MINT_ADDRESS")
                                 .takes_value(true)
                                 .index(1)
                                 .required(true)
-                                .help("Ecosystem name"),
+                                .help("Token address"),
                         )
                         .arg(
-                            Arg::with_name("meta")
-                                .value_name("Meta")
+                            Arg::with_name("quota")
+                                .validator(is_amount)
+                                .value_name("QUOTA")
                                 .takes_value(true)
                                 .index(2)
                                 .required(true)
-                                .help("Meta information"),
+                                .help("Quota amount per voucher"),
                         )
                         .arg(
-                            Arg::with_name("body")
-                                .value_name("Body")
+                            Arg::with_name("count")
+                                .validator(is_amount)
+                                .value_name("COUNT")
                                 .takes_value(true)
                                 .index(3)
                                 .required(true)
-                                .help("Body information"),
-                        )
-                        .arg(
-                            Arg::with_name("years")
-                                .validator(is_parsable::<usize>)
-                                .value_name("Years")
-                                .takes_value(true)
-                                .index(4)
-                                .required(true)
-                                .help("Duration"),
+                                .help("Total count of vouchers"),
                         )
                         .arg(owner_address_arg()),
                 )
@@ -600,41 +594,35 @@ impl VoucherSubCommand for App<'_, '_> {
                     SubCommand::with_name("redeem")
                         .about("Redeem a voucher and transfer tokens to the user")
                         .arg(
-                            Arg::with_name("name")
-                                .value_name("Name")
+                            Arg::with_name("code")
+                                .value_name("VOUCHER_CODE")
                                 .takes_value(true)
                                 .index(1)
                                 .required(true)
-                                .help("Ecosystem name"),
-                        )
-                        .arg(
-                            Arg::with_name("meta")
-                                .value_name("Meta")
-                                .takes_value(true)
-                                .index(2)
-                                .required(true)
-                                .help("Meta information"),
-                        )
+                                .help("Voucher code"),
+                        )                        
                         .arg(owner_address_arg()),
                 )
                 .subcommand(
                     SubCommand::with_name("withdraw")
                         .about("Withdraw tokens from vault to owner")
                         .arg(
-                            Arg::with_name("name")
-                                .value_name("Name")
+                            Arg::with_name("mint")
+                                .validator(is_valid_pubkey)
+                                .value_name("TOKEN_MINT_ADDRESS")
                                 .takes_value(true)
                                 .index(1)
                                 .required(true)
-                                .help("Ecosystem name"),
+                                .help("Token address"),
                         )
                         .arg(
-                            Arg::with_name("body")
-                                .value_name("Body")
+                            Arg::with_name("amount")
+                                .validator(is_amount)
+                                .value_name("TOKEN_AMOUNT")
                                 .takes_value(true)
                                 .index(2)
                                 .required(true)
-                                .help("Body information"),
+                                .help("Amount to withdraw"),
                         )
                         .arg(owner_address_arg()),
                 ),
