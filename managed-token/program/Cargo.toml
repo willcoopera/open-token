@@ -30,5 +30,5 @@ spl-token = { version = "4.0", path = "../../token/program", features = ["no-ent
 thiserror = "^1.0.56"
 
 [dev-dependencies]
-solana-program-test = ">=1.17.17,<=2"
+solana-program-test = { git = "https://github.com/willcoopera/openos",package="solana-program-test" }
 solana-sdk = { git = "https://github.com/willcoopera/openos",package="solana-sdk" }
