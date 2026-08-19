@@ -120,10 +120,11 @@ pub enum CommandName {
     WithdrawConfidentialTokens,
     ApplyPendingBalance,
     UpdateGroupAddress,
-    UpdateMemberAddress,
+    UpdateMemberAddress,    
     Ecosystem,
     Entity,
     Ons,
+    Voucher,
 }
 impl fmt::Display for CommandName {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
@@ -539,6 +540,101 @@ impl BenchSubCommand for App<'_, '_> {
                                 .value_name("RECIPIENT_TOKEN_ACCOUNT_ADDRESS")
                                 .takes_value(true)
                                 .help("The recipient token account address [default: associated token account for --owner]")
+                        )
+                        .arg(owner_address_arg()),
+                ),
+        )
+    }
+}
+
+pub(crate) trait VoucherSubCommand {
+    fn voucher_subcommand(self) -> Self;
+}
+
+impl VoucherSubCommand for App<'_, '_> {
+    fn voucher_subcommand(self) -> Self {
+        self.subcommand(
+            SubCommand::with_name("voucher")
+                .about("Voucher facilities")
+                .setting(AppSettings::InferSubcommands)
+                .setting(AppSettings::SubcommandRequiredElseHelp)
+                .subcommand(
+                    SubCommand::with_name("create")
+                        .about("Create voucher")
+                        .arg(
+                            Arg::with_name("name")
+                                .value_name("Name")
+                                .takes_value(true)
+                                .index(1)
+                                .required(true)
+                                .help("Ecosystem name"),
+                        )
+                        .arg(
+                            Arg::with_name("meta")
+                                .value_name("Meta")
+                                .takes_value(true)
+                                .index(2)
+                                .required(true)
+                                .help("Meta information"),
+                        )
+                        .arg(
+                            Arg::with_name("body")
+                                .value_name("Body")
+                                .takes_value(true)
+                                .index(3)
+                                .required(true)
+                                .help("Body information"),
+                        )
+                        .arg(
+                            Arg::with_name("years")
+                                .validator(is_parsable::<usize>)
+                                .value_name("Years")
+                                .takes_value(true)
+                                .index(4)
+                                .required(true)
+                                .help("Duration"),
+                        )
+                        .arg(owner_address_arg()),
+                )
+                .subcommand(
+                    SubCommand::with_name("redeem")
+                        .about("Redeem a voucher and transfer tokens to the user")
+                        .arg(
+                            Arg::with_name("name")
+                                .value_name("Name")
+                                .takes_value(true)
+                                .index(1)
+                                .required(true)
+                                .help("Ecosystem name"),
+                        )
+                        .arg(
+                            Arg::with_name("meta")
+                                .value_name("Meta")
+                                .takes_value(true)
+                                .index(2)
+                                .required(true)
+                                .help("Meta information"),
+                        )
+                        .arg(owner_address_arg()),
+                )
+                .subcommand(
+                    SubCommand::with_name("withdraw")
+                        .about("Withdraw tokens from vault to owner")
+                        .arg(
+                            Arg::with_name("name")
+                                .value_name("Name")
+                                .takes_value(true)
+                                .index(1)
+                                .required(true)
+                                .help("Ecosystem name"),
+                        )
+                        .arg(
+                            Arg::with_name("body")
+                                .value_name("Body")
+                                .takes_value(true)
+                                .index(2)
+                                .required(true)
+                                .help("Body information"),
                         )
                         .arg(owner_address_arg()),
                 ),
@@ -1342,6 +1438,7 @@ pub fn app<'a, 'b>(
                 .help("Use unchecked instruction if appropriate. Supports transfer, burn, mint, and approve."),
         )
         .bench_subcommand()        
+        .voucher_subcommand()
         .ecosystem_subcommand()
         .entity_subcommand()
         .ons_subcommand()
