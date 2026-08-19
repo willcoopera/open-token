@@ -9630,7 +9630,7 @@ dependencies = [
 [[package]]
 name = "spl-associated-token-account"
 version = "2.3.0"
-source = "git+https://github.com/willcoopera/open-token#f416083e4a9a93a704f11e8448b7e36ef07ef436"
+source = "git+https://github.com/willcoopera/open-token#5f2ae8b33ffd234696a9210d128078670866d4b6"
 dependencies = [
  "assert_matches",
  "borsh 0.10.4",
@@ -9706,7 +9706,7 @@ dependencies = [
 [[package]]
 name = "spl-discriminator"
 version = "0.1.0"
-source = "git+https://github.com/willcoopera/open-token#f416083e4a9a93a704f11e8448b7e36ef07ef436"
+source = "git+https://github.com/willcoopera/open-token#5f2ae8b33ffd234696a9210d128078670866d4b6"
 dependencies = [
  "bytemuck",
  "solana-program 1.17.28",
@@ -9725,7 +9725,7 @@ dependencies = [
 [[package]]
 name = "spl-discriminator-derive"
 version = "0.1.1"
-source = "git+https://github.com/willcoopera/open-token#f416083e4a9a93a704f11e8448b7e36ef07ef436"
+source = "git+https://github.com/willcoopera/open-token#5f2ae8b33ffd234696a9210d128078670866d4b6"
 dependencies = [
  "quote",
  "spl-discriminator-syn 0.1.1 (git+https://github.com/willcoopera/open-token)",
@@ -9757,7 +9757,7 @@ dependencies = [
 [[package]]
 name = "spl-discriminator-syn"
 version = "0.1.1"
-source = "git+https://github.com/willcoopera/open-token#f416083e4a9a93a704f11e8448b7e36ef07ef436"
+source = "git+https://github.com/willcoopera/open-token#5f2ae8b33ffd234696a9210d128078670866d4b6"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -9864,7 +9864,7 @@ dependencies = [
  "clap 2.34.0",
  "solana-clap-utils 2.3.13",
  "solana-cli-config 2.3.13",
- "solana-client 1.18.26",
+ "solana-client 1.17.28",
  "solana-logger 2.3.1",
  "solana-sdk 1.17.28",
  "spl-feature-proposal",
@@ -10048,7 +10048,7 @@ dependencies = [
 [[package]]
 name = "spl-memo"
 version = "4.0.0"
-source = "git+https://github.com/willcoopera/open-token#f416083e4a9a93a704f11e8448b7e36ef07ef436"
+source = "git+https://github.com/willcoopera/open-token#5f2ae8b33ffd234696a9210d128078670866d4b6"
 dependencies = [
  "solana-program 1.17.28",
 ]
@@ -10104,7 +10104,7 @@ dependencies = [
 [[package]]
 name = "spl-pod"
 version = "0.1.0"
-source = "git+https://github.com/willcoopera/open-token#f416083e4a9a93a704f11e8448b7e36ef07ef436"
+source = "git+https://github.com/willcoopera/open-token#5f2ae8b33ffd234696a9210d128078670866d4b6"
 dependencies = [
  "borsh 0.10.4",
  "bytemuck",
@@ -10143,7 +10143,7 @@ dependencies = [
 [[package]]
 name = "spl-program-error"
 version = "0.3.0"
-source = "git+https://github.com/willcoopera/open-token#f416083e4a9a93a704f11e8448b7e36ef07ef436"
+source = "git+https://github.com/willcoopera/open-token#5f2ae8b33ffd234696a9210d128078670866d4b6"
 dependencies = [
  "num-derive 0.4.2",
  "num-traits",
@@ -10165,7 +10165,7 @@ dependencies = [
 [[package]]
 name = "spl-program-error-derive"
 version = "0.3.1"
-source = "git+https://github.com/willcoopera/open-token#f416083e4a9a93a704f11e8448b7e36ef07ef436"
+source = "git+https://github.com/willcoopera/open-token#5f2ae8b33ffd234696a9210d128078670866d4b6"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -10249,7 +10249,7 @@ dependencies = [
  "solana-clap-v3-utils",
  "solana-cli-config 2.3.13",
  "solana-cli-output 1.18.26",
- "solana-client 1.18.26",
+ "solana-client 1.17.28",
  "solana-logger 2.3.1",
  "solana-remote-wallet 2.3.13",
  "solana-sdk 1.17.28",
@@ -10308,7 +10308,7 @@ dependencies = [
  "solana-clap-utils 2.3.13",
  "solana-cli-config 2.3.13",
  "solana-cli-output 1.18.26",
- "solana-client 1.18.26",
+ "solana-client 1.17.28",
  "solana-logger 2.3.1",
  "solana-program 1.17.28",
  "solana-remote-wallet 2.3.13",
@@ -10326,7 +10326,7 @@ dependencies = [
  "futures 0.3.34",
  "futures-util",
  "serde",
- "solana-client 1.18.26",
+ "solana-client 1.17.28",
  "solana-program 1.17.28",
  "solana-program-test 1.17.28",
  "solana-sdk 1.17.28",
@@ -10353,7 +10353,7 @@ dependencies = [
 [[package]]
 name = "spl-tlv-account-resolution"
 version = "0.5.1"
-source = "git+https://github.com/willcoopera/open-token#f416083e4a9a93a704f11e8448b7e36ef07ef436"
+source = "git+https://github.com/willcoopera/open-token#5f2ae8b33ffd234696a9210d128078670866d4b6"
 dependencies = [
  "bytemuck",
  "solana-program 1.17.28",
@@ -10399,7 +10399,7 @@ dependencies = [
 [[package]]
 name = "spl-token"
 version = "4.0.0"
-source = "git+https://github.com/willcoopera/open-token#f416083e4a9a93a704f11e8448b7e36ef07ef436"
+source = "git+https://github.com/willcoopera/open-token#5f2ae8b33ffd234696a9210d128078670866d4b6"
 dependencies = [
  "arrayref",
  "bytemuck",
@@ -10469,7 +10469,7 @@ dependencies = [
 [[package]]
 name = "spl-token-2022"
 version = "2.0.0"
-source = "git+https://github.com/willcoopera/open-token#f416083e4a9a93a704f11e8448b7e36ef07ef436"
+source = "git+https://github.com/willcoopera/open-token#5f2ae8b33ffd234696a9210d128078670866d4b6"
 dependencies = [
  "arrayref",
  "bytemuck",
@@ -10642,7 +10642,7 @@ dependencies = [
 [[package]]
 name = "spl-token-group-interface"
 version = "0.1.0"
-source = "git+https://github.com/willcoopera/open-token#f416083e4a9a93a704f11e8448b7e36ef07ef436"
+source = "git+https://github.com/willcoopera/open-token#5f2ae8b33ffd234696a9210d128078670866d4b6"
 dependencies = [
  "bytemuck",
  "solana-program 1.17.28",
@@ -10676,7 +10676,7 @@ dependencies = [
  "clap 2.34.0",
  "solana-clap-utils 2.3.13",
  "solana-cli-config 2.3.13",
- "solana-client 1.18.26",
+ "solana-client 1.17.28",
  "solana-logger 2.3.1",
  "solana-program 1.17.28",
  "solana-sdk 1.17.28",
@@ -10730,7 +10730,7 @@ dependencies = [
 [[package]]
 name = "spl-token-metadata-interface"
 version = "0.2.0"
-source = "git+https://github.com/willcoopera/open-token#f416083e4a9a93a704f11e8448b7e36ef07ef436"
+source = "git+https://github.com/willcoopera/open-token#5f2ae8b33ffd234696a9210d128078670866d4b6"
 dependencies = [
  "borsh 0.10.4",
  "solana-program 1.17.28",
@@ -10797,7 +10797,7 @@ dependencies = [
  "futures-util",
  "solana-clap-v3-utils",
  "solana-cli-config 2.3.13",
- "solana-client 1.18.26",
+ "solana-client 1.17.28",
  "solana-logger 2.3.1",
  "solana-remote-wallet 2.3.13",
  "solana-sdk 1.17.28",
@@ -10835,7 +10835,7 @@ dependencies = [
  "serde_yaml",
  "solana-clap-v3-utils",
  "solana-cli-config 2.3.13",
- "solana-client 1.18.26",
+ "solana-client 1.17.28",
  "solana-logger 2.3.1",
  "solana-remote-wallet 2.3.13",
  "solana-sdk 1.17.28",
@@ -10897,7 +10897,7 @@ dependencies = [
 [[package]]
 name = "spl-transfer-hook-interface"
 version = "0.5.0"
-source = "git+https://github.com/willcoopera/open-token#f416083e4a9a93a704f11e8448b7e36ef07ef436"
+source = "git+https://github.com/willcoopera/open-token#5f2ae8b33ffd234696a9210d128078670866d4b6"
 dependencies = [
  "arrayref",
  "bytemuck",
@@ -10937,7 +10937,7 @@ dependencies = [
 [[package]]
 name = "spl-type-length-value"
 version = "0.3.0"
-source = "git+https://github.com/willcoopera/open-token#f416083e4a9a93a704f11e8448b7e36ef07ef436"
+source = "git+https://github.com/willcoopera/open-token#5f2ae8b33ffd234696a9210d128078670866d4b6"
 dependencies = [
  "bytemuck",
  "solana-program 1.17.28",
