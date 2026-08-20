@@ -6,7 +6,7 @@ use serde_json::Value;
 
 pub const ONS_PROGRAM_ID: &str = "on6LJ2wZa2jRAdnouvPtkAxLtZfVr9y8J7dMLgeDWLg";
 pub const ONS_API_URL: &str = "http://192.168.204.128:5056";
-
+pub const VOUCHER_PROGRAM_ID: &str = "vokWjyeSruKu2xoZkYNTz9fgW5Ba1rrrmzbXSQs3j59";
 pub fn hash_name(name: &str) -> [u8; 16] {
     let mut hasher = Sha256::new();
     hasher.update(name.as_bytes());
@@ -25,6 +25,12 @@ pub struct TreasuryConfig {
     pub fee_receiver: String,
     pub fee_shortname: u64,
     pub fee_longname: u64,
+}
+
+#[derive(serde::Deserialize)]
+pub struct VoucherTreasuryConfig {
+    pub fee_receiver: String,
+    pub fees: u64,
 }
 
 #[derive(serde::Deserialize, Clone)]

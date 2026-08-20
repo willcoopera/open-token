@@ -572,16 +572,16 @@ impl VoucherSubCommand for App<'_, '_> {
                         )
                         .arg(
                             Arg::with_name("quota")
-                                .validator(is_amount)
+                                .validator(is_parsable::<u64>)
                                 .value_name("QUOTA")
                                 .takes_value(true)
                                 .index(2)
                                 .required(true)
-                                .help("Quota amount per voucher"),
+                                .help("Human quota amount per voucher, not include decimal"),
                         )
                         .arg(
                             Arg::with_name("count")
-                                .validator(is_amount)
+                                .validator(is_parsable::<u64>)
                                 .value_name("COUNT")
                                 .takes_value(true)
                                 .index(3)
@@ -595,11 +595,11 @@ impl VoucherSubCommand for App<'_, '_> {
                         .about("Redeem a voucher and transfer tokens to the user")
                         .arg(
                             Arg::with_name("code")
-                                .value_name("VOUCHER_CODE")
+                                .value_name("REDEEM_CODE")
                                 .takes_value(true)
                                 .index(1)
                                 .required(true)
-                                .help("Voucher code"),
+                                .help("Please use redeem-code to redeem."),
                         )                        
                         .arg(owner_address_arg()),
                 )
@@ -617,12 +617,12 @@ impl VoucherSubCommand for App<'_, '_> {
                         )
                         .arg(
                             Arg::with_name("amount")
-                                .validator(is_amount)
+                                .validator(is_parsable::<u64>)
                                 .value_name("TOKEN_AMOUNT")
                                 .takes_value(true)
                                 .index(2)
                                 .required(true)
-                                .help("Amount to withdraw"),
+                                .help("Human amount to withdraw, not include decimal"),
                         )
                         .arg(owner_address_arg()),
                 ),
