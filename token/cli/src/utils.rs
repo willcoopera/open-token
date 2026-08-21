@@ -6,12 +6,13 @@ use {
     serde_json::Value,
     crate::{clap_app::Error},
     solana_client::{ nonblocking::rpc_client::RpcClient,},
-    std::{rc::Rc, sync::Arc, time::Instant, str::FromStr,},
+    std::{rc::Rc, sync::Arc, time::{Instant, Duration}, str::FromStr},
     rust_xlsxwriter::{Format, Workbook},
     chrono::{Local, TimeZone, Utc},
     spl_associated_token_account::{ error::AssociatedTokenAccountError, get_associated_token_address_with_program_id,
         instruction::{create_associated_token_account,},
     },
+    tokio::time::sleep,
 };
 pub const ONS_PROGRAM_ID: &str = "on6LJ2wZa2jRAdnouvPtkAxLtZfVr9y8J7dMLgeDWLg";
 pub const ONS_API_URL: &str = "http://192.168.204.128:5056";
@@ -422,14 +423,29 @@ pub async fn get_or_create_token_ata(
 
     let signature = rpc_client.send_and_confirm_transaction(&transaction).await?;
     //println!("ATA created successfully. tx: {}", signature);
+    for i in 0..10 {
+        match rpc_client.get_account(&ata).await {
+            Ok(account) => {
+                //println!("Vault ATA is visible after {} attempt(s)", i + 1);
+                //println!("ATA owner: {}", account.owner);
+                break;
+            }
 
-    rpc_client
-        .get_account(&ata)
-        .await
-        .map_err(|e| {
-            println!("ATA creation transaction succeeded,but ATA {} does not exist: {}", ata, e)
-        });
-
+            Err(_) => {
+                if i == 9 {
+                    return Err(
+                        format!(
+                            "Vault ATA {} is still not visible",
+                            ata
+                        )
+                        .into()
+                    );
+                }
+                sleep(Duration::from_millis(1000)).await;
+            }
+        }
+    }
+    sleep(Duration::from_millis(1000)).await;
     Ok(ata)
 }
 pub async fn get_mint_decimals(rpc_client: &RpcClient, mint: &Pubkey) -> Result<u8, Error> {
