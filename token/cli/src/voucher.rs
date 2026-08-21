@@ -15,7 +15,7 @@ use {
         state::{Account, Mint},
     }, std::{rc::Rc, sync::Arc, time::Instant
     }, 
-    crate::utils::{hash_name, find_pda, VoucherTreasuryConfig as TreasuryConfig, instruction_discriminator, 
+    crate::utils::{find_pda, VoucherTreasuryConfig as TreasuryConfig, instruction_discriminator, 
         VOUCHER_PROGRAM_ID,parse_voucher_detail,VoucherResult,
     }, 
     solana_program::{pubkey::Pubkey as SolPubkey}, std::str::FromStr,
@@ -54,6 +54,15 @@ pub(crate) async fn voucher_process_command(
             signers.push(owner_signer);
             let program_id = SolPubkey::from_str(VOUCHER_PROGRAM_ID).unwrap();
             command_redeem(config, signers, code, &owner, &program_id).await?;
+        }
+        ("withdraw", Some(arg_matches)) => {
+            let mint = value_t_or_exit!(arg_matches, "mint", String);
+            let amount = value_t_or_exit!(arg_matches, "amount", f64);
+            let (owner_signer, owner) =
+                config.signer_or_default_ons(arg_matches, "owner", wallet_manager);
+            signers.push(owner_signer);
+            let program_id = SolPubkey::from_str(VOUCHER_PROGRAM_ID).unwrap();
+            command_withdraw(config, signers, mint, amount, &owner, &program_id).await?;
         }
         _ => unreachable!(),
     }
@@ -755,5 +764,199 @@ async fn command_redeem(
     println!("User ATA         : {}", user_token_account);
     println!("Transaction      : {}", signature);
     println!("==========================================");
+    Ok(())
+}
+
+async fn command_withdraw(
+    config: &Config<'_>,
+    signers: Vec<Arc<dyn Signer>>,
+    mint: String,
+    amount: f64,
+    payer_pbk: &Pubkey,
+    program_id: &Pubkey,
+) -> Result<(), Error> {
+    let rpc_client = &config.rpc_client;
+    let token2022_program_pbk = Pubkey::from_str("Token9ADbPtdFC3PjxaohBLGw2pgZwofdcbj6Lyaw6c").unwrap();
+    if amount < 0.0 {
+        return Err(format!("Amount must be >= 0").into());
+    }  
+    let mint_pubkey = Pubkey::from_str(&mint)
+            .map_err(|_| {
+                format!(
+                    "Invalid mint address: {}",
+                    mint
+                )
+            })?;
+    println!("==========================================");
+    println!("Voucher Withdraw");
+    println!("==========================================");
+    println!("Operator : {}", payer_pbk);
+    println!("Mint     : {}", mint_pubkey);
+    println!("Amount   : {}", amount);
+    let decimals = get_mint_decimals(rpc_client, &mint_pubkey)
+        .await
+        .map_err(|e| {
+            format!(
+                "Failed to get mint decimals: {}",
+                e
+            )
+        })?;
+
+    //println!("Mint decimals: {}", decimals);
+    let raw_amount = spl_token::ui_amount_to_amount(amount, decimals);
+    //println!("Quota raw amount: {}", quota_amount);
+
+    let operator_token_account = get_or_create_token_ata(
+            rpc_client,
+            payer_pbk,
+            &signers,
+            payer_pbk,
+            &mint_pubkey,
+        )
+        .await
+        .map_err(|e| {
+            format!(
+                "Failed to get/create operator ATA: {}",
+                e
+            )
+        })?;
+    //println!("Operator ATA: {}", operator_token_account);
+    let (vault_pubkey, vault_bump) = Pubkey::find_program_address(
+            &[
+                b"vault",
+                payer_pbk.as_ref(),
+                mint_pubkey.as_ref(),
+            ],
+            program_id,
+        );
+
+    //println!("Vault PDA: {} bump: {}", vault_pubkey, vault_bump);
+    let vault_token_account = get_or_create_token_ata(
+            rpc_client,
+            payer_pbk,
+            &signers,
+            &vault_pubkey,
+            &mint_pubkey,
+        )
+        .await
+        .map_err(|e| {
+            format!("Failed to get/create vault ATA: {}", e)
+        })?;
+
+    println!();
+    let accounts = vec![
+        AccountMeta::new(*payer_pbk, true),        
+        AccountMeta::new_readonly(mint_pubkey, false),
+        AccountMeta::new(vault_pubkey, false),
+        AccountMeta::new(vault_token_account, false),        
+        AccountMeta::new(operator_token_account, false),        
+        AccountMeta::new_readonly(solana_sdk::system_program::ID, false),
+        AccountMeta::new_readonly(token2022_program_pbk, false),
+    ];
+
+    let mut data = Vec::with_capacity(8 + 8);
+    data.extend_from_slice(&instruction_discriminator("vault_withdraw"));
+    data.extend_from_slice(&raw_amount.to_le_bytes());
+
+    let instruction = Instruction {
+        program_id: *program_id,
+        accounts,
+        data,
+    };
+
+    let blockhash = rpc_client.get_latest_blockhash()
+            .await
+            .map_err(|e| {
+                format!(
+                    "Failed to get blockhash: {}",
+                    e
+                )
+            })?;
+    let mut transaction = Transaction::new_with_payer(&[instruction], Some(payer_pbk));
+    transaction.sign(&signers, blockhash);
+
+    let simulation = rpc_client.simulate_transaction(&transaction)
+            .await
+            .map_err(|e| {
+                format!(
+                    "Simulation RPC failed: {}",
+                    e
+                )
+            })?;
+
+    if let Some(err) = simulation.value.err{
+        println!();
+        println!(
+            "Voucher simulation failed:"
+        );
+
+        for log in simulation
+            .value
+            .logs
+            .unwrap_or_default()
+        {
+            println!("{}", log);
+        }
+
+        return Err(
+            format!(
+                "Simulation failed: {:?}",
+                err
+            )
+            .into()
+        );
+    }
+
+    let signature = rpc_client.send_and_confirm_transaction(&transaction)
+            .await
+            .map_err(|e| {
+                format!(
+                    "Voucher send failed: {}",
+                    e
+                )
+            })?;
+
+    println!("SUCCESS tx : {}", signature);
+    println!();
+    println!(
+        "=========================================="
+    );
+
+    println!(
+        "Voucher withdraw completed."
+    );
+
+    println!(
+        "Mint             : {}",
+        mint_pubkey
+    );
+
+    println!(
+        "Decimals         : {}",
+        decimals
+    );
+
+    println!(
+        "Amount           : {}",
+        amount
+    );
+
+    println!(
+        "Raw amount       : {}",
+        raw_amount
+    );
+
+    println!(
+        "Vault            : {}",
+        vault_pubkey
+    );
+
+    println!(
+        "Vault ATA        : {}",
+        vault_token_account
+    );
+    println!(
+        "=========================================="
+    );    
     Ok(())
 }
