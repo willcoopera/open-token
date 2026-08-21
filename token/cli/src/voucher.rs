@@ -18,7 +18,7 @@ use {
     std::{rc::Rc, sync::Arc, time::Instant, str::FromStr}, 
     crate::utils::{find_pda, VoucherTreasuryConfig as TreasuryConfig, instruction_discriminator, 
         VOUCHER_PROGRAM_ID,parse_voucher_detail,VoucherResult,keypair_from_base58,export_vouchers_to_excel,
-        get_mint_decimals,get_or_create_token_ata,
+        get_mint_decimals,get_or_create_token_ata,TOKEN2022_PROGRAM_ID,
     }, 
     solana_program::{pubkey::Pubkey as SolPubkey}, 
     serde_json::Value,
@@ -82,7 +82,7 @@ async fn command_create(
     program_id: &Pubkey,
 ) -> Result<(), Error> {
     let rpc_client = &config.rpc_client;
-    let token2022_program_pbk = Pubkey::from_str("Token9ADbPtdFC3PjxaohBLGw2pgZwofdcbj6Lyaw6c").unwrap();
+    let token2022_program_pbk = Pubkey::from_str(TOKEN2022_PROGRAM_ID).unwrap();
     if quota < 0.0 {
         return Err(format!("Quota must be >= 0").into());
     }  
@@ -364,7 +364,7 @@ async fn command_redeem(
     program_id: &Pubkey,
 ) -> Result<(), Error> {
     let rpc_client = &config.rpc_client;
-    let token2022_program_pbk = Pubkey::from_str("Token9ADbPtdFC3PjxaohBLGw2pgZwofdcbj6Lyaw6c").unwrap();
+    let token2022_program_pbk = Pubkey::from_str(TOKEN2022_PROGRAM_ID).unwrap();
     let voucher_keypair = keypair_from_base58(&code)?;
     let voucher_pubkey = voucher_keypair.pubkey();
     println!("==========================================");
@@ -519,7 +519,7 @@ async fn command_withdraw(
     program_id: &Pubkey,
 ) -> Result<(), Error> {
     let rpc_client = &config.rpc_client;
-    let token2022_program_pbk = Pubkey::from_str("Token9ADbPtdFC3PjxaohBLGw2pgZwofdcbj6Lyaw6c").unwrap();
+    let token2022_program_pbk = Pubkey::from_str(TOKEN2022_PROGRAM_ID).unwrap();
     if amount < 0.0 {
         return Err(format!("Amount must be >= 0").into());
     }  

@@ -16,6 +16,8 @@ use {
 pub const ONS_PROGRAM_ID: &str = "on6LJ2wZa2jRAdnouvPtkAxLtZfVr9y8J7dMLgeDWLg";
 pub const ONS_API_URL: &str = "http://192.168.204.128:5056";
 pub const VOUCHER_PROGRAM_ID: &str = "vokWjyeSruKu2xoZkYNTz9fgW5Ba1rrrmzbXSQs3j59";
+pub const TOKEN2022_PROGRAM_ID: &str = "Token9ADbPtdFC3PjxaohBLGw2pgZwofdcbj6Lyaw6c";
+
 pub fn hash_name(name: &str) -> [u8; 16] {
     let mut hasher = Sha256::new();
     hasher.update(name.as_bytes());
@@ -390,7 +392,7 @@ pub async fn get_or_create_token_ata(
     owner: &Pubkey,
     mint: &Pubkey,
 ) -> Result<Pubkey, Error> {
-    let token2022_program_pbk = Pubkey::from_str("Token9ADbPtdFC3PjxaohBLGw2pgZwofdcbj6Lyaw6c").unwrap();
+    let token2022_program_pbk = Pubkey::from_str(TOKEN2022_PROGRAM_ID).unwrap();
     let ata = get_associated_token_address_with_program_id(
             owner,
             mint,
