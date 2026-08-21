@@ -15,7 +15,7 @@ use {
 };
 pub const ONS_PROGRAM_ID: &str = "on6LJ2wZa2jRAdnouvPtkAxLtZfVr9y8J7dMLgeDWLg";
 pub const ONS_API_URL: &str = "http://192.168.204.128:5056";
-pub const VOUCHER_PROGRAM_ID: &str = "vokWjyeSruKu2xoZkYNTz9fgW5Ba1rrrmzbXSQs3j59";
+pub const VOUCHER_PROGRAM_ID: &str = "votV1qo18w3JMKX8wUAmgvdAy2dDXVc9cLUy6x5XwsQ";
 pub const TOKEN2022_PROGRAM_ID: &str = "Token9ADbPtdFC3PjxaohBLGw2pgZwofdcbj6Lyaw6c";
 
 pub fn hash_name(name: &str) -> [u8; 16] {
@@ -421,7 +421,7 @@ pub async fn get_or_create_token_ata(
     }
 
     let signature = rpc_client.send_and_confirm_transaction(&transaction).await?;
-    println!("ATA created successfully. tx: {}", signature);    
+    //println!("ATA created successfully. tx: {}", signature);
 
     rpc_client
         .get_account(&ata)

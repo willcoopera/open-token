@@ -342,29 +342,7 @@ async fn command_redeem(
     println!("==========================================");
     println!("Voucher Redeem");
     println!("==========================================");
-    let (treasury_pubkey, _treasury_bump) = find_pda(&[b"treasury_config"], program_id);
-
-    let treasury_account = rpc_client.get_account(&treasury_pubkey).await
-        .map_err(|_| format!("Treasury config account does not exist: {}", treasury_pubkey))?;
-    let treasury_data = &treasury_account.data;
-    if treasury_data.len() < 40 {
-        return Err(format!("Treasury account data too short").into());
-    }    
-    let json_data = &treasury_data[40..];    
-    if json_data.len() < 4 {
-        return Err(format!("Invalid treasury JSON data: too short").into());
-    }    
-    let json_len = u32::from_le_bytes([json_data[0], json_data[1], json_data[2], json_data[3]]) as usize;    
-    if json_data.len() < 4 + json_len {
-        return Err(format!("Invalid treasury JSON length").into());
-    }    
-    let json_str = std::str::from_utf8(&json_data[4..4 + json_len])
-        .map_err(|_| format!("Invalid UTF-8 in treasury config_json"))?;
-    let treasury_config: TreasuryConfig = serde_json::from_str(json_str)
-        .map_err(|e| format!("Failed to parse treasury config: {}", e))?;
-    let fee_receiver_pubkey = Pubkey::from_str(&treasury_config.fee_receiver)
-        .map_err(|_| format!("Invalid fee_receiver in treasury config"))?;
-    let (detail_pubkey, detail_bump) =
+    let (detail_pubkey, _) =
         Pubkey::find_program_address(
             &[b"vo", voucher_pubkey.as_ref()],
             program_id,
@@ -381,7 +359,7 @@ async fn command_redeem(
             })?;
 
     let detail = parse_voucher_detail(&detail_account.data)?;
-    let (vault_pubkey, vault_bump) =
+    let (vault_pubkey, _) =
         Pubkey::find_program_address(
             &[
                 b"vault",
@@ -405,7 +383,6 @@ async fn command_redeem(
             )
         })?;
 
-    //println!("Vault PDA: {} bump: {}", vault_pubkey, vault_bump);
     let vault_token_account = get_or_create_token_ata(
             rpc_client,
             payer_pbk,
