@@ -18,7 +18,7 @@ use {
     std::{rc::Rc, sync::Arc, time::Instant, str::FromStr}, 
     crate::utils::{find_pda, VoucherTreasuryConfig as TreasuryConfig, instruction_discriminator, 
         VOUCHER_PROGRAM_ID,parse_voucher_detail,VoucherResult,keypair_from_base58,export_vouchers_to_excel,
-        get_mint_decimals,get_or_create_token_ata,TOKEN2022_PROGRAM_ID,
+        get_mint_decimals,get_or_create_token_ata,TOKEN2022_PROGRAM_ID,format_timestamp,parse_vault,
     }, 
     solana_program::{pubkey::Pubkey as SolPubkey}, 
     serde_json::Value,
@@ -65,6 +65,22 @@ pub(crate) async fn voucher_process_command(
             signers.push(owner_signer);
             let program_id = SolPubkey::from_str(VOUCHER_PROGRAM_ID).unwrap();
             command_withdraw(config, signers, mint, amount, &owner, &program_id).await?;
+        }
+        ("info", Some(arg_matches)) => {
+            let code = value_t_or_exit!(arg_matches, "code", String);
+            let (owner_signer, owner) =
+                config.signer_or_default_ons(arg_matches, "owner", wallet_manager);
+            signers.push(owner_signer);
+            let program_id = SolPubkey::from_str(VOUCHER_PROGRAM_ID).unwrap();
+            command_info(config, signers, code, &owner, &program_id).await?;
+        }
+        ("vault", Some(arg_matches)) => {
+            let mint = value_t_or_exit!(arg_matches, "mint", String);
+            let (owner_signer, owner) =
+                config.signer_or_default_ons(arg_matches, "owner", wallet_manager);
+            signers.push(owner_signer);
+            let program_id = SolPubkey::from_str(VOUCHER_PROGRAM_ID).unwrap();
+            command_vault(config, signers, mint, &owner, &program_id).await?;
         }
         _ => unreachable!(),
     }
@@ -282,69 +298,25 @@ async fn command_create(
             }
         );
     }
-    let filename =
-        format!(
-            "voucher_{}.xlsx",
-            Local::now()
-                .format("%Y%m%d_%H%M%S")
-        );
-
-    export_vouchers_to_excel(
-        &filename,
-        &results,
-        decimals,
-    )
-    .map_err(|e| {
-        format!(
-            "Failed to export Excel: {}",
-            e
-        )
-    })?;
+    let filename = format!("voucher_{}.xlsx", Local::now().format("%Y%m%d_%H%M%S"));
+    export_vouchers_to_excel(&filename, &results, decimals,)
+        .map_err(|e| {
+            format!(
+                "Failed to export Excel: {}",
+                e
+            )
+        })?;
 
     println!();
-    println!(
-        "=========================================="
-    );
-
-    println!(
-        "Voucher creation completed."
-    );
-
-    println!(
-        "Mint             : {}",
-        mint_pubkey
-    );
-
-    println!(
-        "Decimals         : {}",
-        decimals
-    );
-
-    println!(
-        "Quota each       : {}",
-        quota
-    );
-
-    println!(
-        "Raw quota each   : {}",
-        quota_amount
-    );
-
-    println!(
-        "Count            : {}",
-        results.len()
-    );
-
-    println!(
-        "Vault            : {}",
-        vault_pubkey
-    );
-
-    println!(
-        "Vault ATA        : {}",
-        vault_token_account
-    );
-
+    println!("==========================================");
+    println!("Voucher creation completed.");
+    println!("Mint             : {}", mint_pubkey);
+    println!("Decimals         : {}", decimals);
+    println!("Quota each       : {}", quota);
+    println!("Raw quota each   : {}", quota_amount);
+    println!("Count            : {}", results.len());
+    println!("Vault            : {}", vault_pubkey);
+    println!("Vault ATA        : {}", vault_token_account);
     println!("Excel            : {}", filename);
     println!("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     println!("⚠️ IMPORTANT: Critical voucher data. Please save this file first!");
@@ -545,10 +517,7 @@ async fn command_withdraw(
             )
         })?;
 
-    //println!("Mint decimals: {}", decimals);
     let raw_amount = spl_token::ui_amount_to_amount(amount, decimals);
-    //println!("Quota raw amount: {}", quota_amount);
-
     let operator_token_account = get_or_create_token_ata(
             rpc_client,
             payer_pbk,
@@ -608,24 +577,24 @@ async fn command_withdraw(
     };
 
     let blockhash = rpc_client.get_latest_blockhash()
-            .await
-            .map_err(|e| {
-                format!(
-                    "Failed to get blockhash: {}",
-                    e
-                )
-            })?;
+        .await
+        .map_err(|e| {
+            format!(
+                "Failed to get blockhash: {}",
+                e
+            )
+        })?;
     let mut transaction = Transaction::new_with_payer(&[instruction], Some(payer_pbk));
     transaction.sign(&signers, blockhash);
 
     let simulation = rpc_client.simulate_transaction(&transaction)
-            .await
-            .map_err(|e| {
-                format!(
-                    "Simulation RPC failed: {}",
-                    e
-                )
-            })?;
+        .await
+        .map_err(|e| {
+            format!(
+                "Simulation RPC failed: {}",
+                e
+            )
+        })?;
 
     if let Some(err) = simulation.value.err{
         println!();
@@ -661,45 +630,146 @@ async fn command_withdraw(
 
     println!("SUCCESS tx : {}", signature);
     println!();
-    println!(
-        "=========================================="
-    );
+    println!("==========================================");
+    println!("Voucher withdraw completed.");
+    println!("Mint             : {}", mint_pubkey);
+    println!("Decimals         : {}", decimals);
+    println!("Amount           : {}", amount);
+    println!("Raw amount       : {}", raw_amount);
+    println!("Vault            : {}", vault_pubkey);
+    println!("Vault ATA        : {}", vault_token_account);
+    println!("==========================================");    
+    Ok(())
+}
 
-    println!(
-        "Voucher withdraw completed."
-    );
+async fn command_info(
+    config: &Config<'_>,
+    signers: Vec<Arc<dyn Signer>>,
+    code: String,
+    payer_pbk: &Pubkey,
+    program_id: &Pubkey,
+) -> Result<(), Error> {
+    let rpc_client = &config.rpc_client;
+    let voucher_pubkey = Pubkey::from_str(&code)
+            .map_err(|_| {
+                format!(
+                    "Invalid voucher public key: {}",
+                    code
+                )
+            })?;
+    let (detail_pubkey, _) =
+        Pubkey::find_program_address(
+            &[b"vo", voucher_pubkey.as_ref()],
+            program_id,
+        );
+    let detail_account = rpc_client.get_account(&detail_pubkey)
+            .await
+            .map_err(|e| {
+                format!(
+                    "Voucher does not exist. \
+                     Detail {} not found: {}",
+                    detail_pubkey,
+                    e
+                )
+            })?;
 
-    println!(
-        "Mint             : {}",
-        mint_pubkey
-    );
+    let detail = parse_voucher_detail(&detail_account.data)?;
+    let mint_pubkey = detail.mint;
+    println!("==========================================");
+    println!("Voucher Information");
+    println!("==========================================");
+    let decimals = get_mint_decimals(rpc_client, &mint_pubkey)
+        .await
+        .map_err(|e| {
+            format!(
+                "Failed to get mint decimals: {}",
+                e
+            )
+        })?;
 
-    println!(
-        "Decimals         : {}",
-        decimals
-    );
+    let human_amount = spl_token::amount_to_ui_amount(detail.quota, decimals);
+    let create_time = format_timestamp(detail.create_time);
+    let redeem_time = format_timestamp(detail.redeem_time);
+    let redeemer = if detail.redeemer == Pubkey::default() {
+        String::new()
+    } else {
+        detail.redeemer.to_string()
+    };
+    println!("Public key       : {}", voucher_pubkey);
+    println!("Mint             : {}", mint_pubkey);
+    println!("Decimals         : {}", decimals);    
+    println!("Quota            : {}", human_amount);
+    println!("Raw quota        : {}", detail.quota);
+    println!("Owner            : {}", detail.creator);
+    println!("Create time      : {}", create_time);
+    println!("Redeemer         : {}", redeemer);
+    println!("Redeem time      : {}", redeem_time);
+    println!("==========================================");    
+    Ok(())
+}
 
-    println!(
-        "Amount           : {}",
-        amount
-    );
-
-    println!(
-        "Raw amount       : {}",
-        raw_amount
-    );
-
-    println!(
-        "Vault            : {}",
-        vault_pubkey
-    );
-
-    println!(
-        "Vault ATA        : {}",
-        vault_token_account
-    );
-    println!(
-        "=========================================="
-    );    
+async fn command_vault(
+    config: &Config<'_>,
+    signers: Vec<Arc<dyn Signer>>,
+    mint: String,
+    payer_pbk: &Pubkey,
+    program_id: &Pubkey,
+) -> Result<(), Error> {
+    let rpc_client = &config.rpc_client;
+    let mint_pubkey = Pubkey::from_str(&mint)
+            .map_err(|_| {
+                format!(
+                    "Invalid mint address: {}",
+                    mint
+                )
+            })?;
+    println!("==========================================");
+    println!("Voucher Vault");
+    println!("==========================================");
+    let decimals = get_mint_decimals(rpc_client, &mint_pubkey)
+        .await
+        .map_err(|e| {
+            format!(
+                "Failed to get mint decimals: {}",
+                e
+            )
+        })?;
+    let (vault_pubkey, _) = Pubkey::find_program_address(
+            &[
+                b"vault",
+                payer_pbk.as_ref(),
+                mint_pubkey.as_ref(),
+            ],
+            program_id,
+        );
+    let account = rpc_client.get_account(&vault_pubkey)
+        .await
+        .map_err(|e| {
+            format!(
+                "Vault does not exist. operator={}, mint={}, vault={}, error={}",
+                payer_pbk,
+                mint_pubkey,
+                vault_pubkey,
+                e
+            )
+        })?;
+    let vault = parse_vault(&account.data)?;
+    let human_balance = spl_token::amount_to_ui_amount(vault.balance, decimals);
+    let human_deposited = spl_token::amount_to_ui_amount(vault.total_deposited, decimals);
+    let human_redeemed = spl_token::amount_to_ui_amount(vault.total_redeemed, decimals);
+    let human_withdreaw = spl_token::amount_to_ui_amount(vault.total_withdrew, decimals);
+    println!("Operator         : {}", payer_pbk);
+    println!("Mint             : {}", mint_pubkey);
+    println!("Decimals         : {}", decimals);
+    println!("Vault            : {}", vault_pubkey);
+    println!("Raw balance      : {}", human_balance);
+    println!("balance          : {}", vault.balance);
+    println!("Total deposited  : {}", human_deposited);
+    println!("Raw deposited    : {}", vault.total_deposited);
+    println!("Total redeemed   : {}", human_redeemed);
+    println!("Raw redeemed     : {}", vault.total_redeemed);
+    println!("Total withdrew   : {}", human_withdreaw);
+    println!("Raw withdrew     : {}", vault.total_withdrew);
+    println!("==========================================");  
     Ok(())
 }

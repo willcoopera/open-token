@@ -625,6 +625,34 @@ impl VoucherSubCommand for App<'_, '_> {
                                 .help("Human amount to withdraw, not include decimal"),
                         )
                         .arg(owner_address_arg()),
+                )
+                .subcommand(
+                    SubCommand::with_name("info")
+                        .about("Query voucher information")
+                        .arg(
+                            Arg::with_name("code")
+                                .validator(is_pubkey)
+                                .value_name("PUBLIC_KEY")
+                                .takes_value(true)
+                                .index(1)
+                                .required(true)
+                                .help("Voucher public key"),
+                        )                        
+                        .arg(owner_address_arg()),
+                )
+                .subcommand(
+                    SubCommand::with_name("vault")
+                        .about("Query vault information")
+                        .arg(
+                            Arg::with_name("mint")
+                                .validator(is_pubkey)
+                                .value_name("TOKEN_MINT_ADDRESS")
+                                .takes_value(true)
+                                .index(1)
+                                .required(true)
+                                .help("Token address"),
+                        )
+                        .arg(owner_address_arg()),
                 ),
         )
     }

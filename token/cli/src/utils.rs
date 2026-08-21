@@ -8,7 +8,7 @@ use {
     solana_client::{ nonblocking::rpc_client::RpcClient,},
     std::{rc::Rc, sync::Arc, time::Instant, str::FromStr,},
     rust_xlsxwriter::{Format, Workbook},
-    chrono::Local,
+    chrono::{Local, TimeZone, Utc},
     spl_associated_token_account::{ error::AssociatedTokenAccountError, get_associated_token_address_with_program_id,
         instruction::{create_associated_token_account,},
     },
@@ -224,11 +224,9 @@ pub fn parse_voucher_detail(
     }
 
     let mut offset = HEADER;
-
     // --------------------------------------------------------
     // code
     // --------------------------------------------------------
-
     let code =
         Pubkey::new_from_array(
             data[offset..offset + 32]
@@ -239,11 +237,9 @@ pub fn parse_voucher_detail(
         );
 
     offset += 32;
-
     // --------------------------------------------------------
     // mint
     // --------------------------------------------------------
-
     let mint =
         Pubkey::new_from_array(
             data[offset..offset + 32]
@@ -254,11 +250,9 @@ pub fn parse_voucher_detail(
         );
 
     offset += 32;
-
     // --------------------------------------------------------
     // quota
     // --------------------------------------------------------
-
     let quota =
         u64::from_le_bytes(
             data[offset..offset + 8]
@@ -269,11 +263,9 @@ pub fn parse_voucher_detail(
         );
 
     offset += 8;
-
     // --------------------------------------------------------
     // creator
     // --------------------------------------------------------
-
     let creator =
         Pubkey::new_from_array(
             data[offset..offset + 32]
@@ -284,11 +276,9 @@ pub fn parse_voucher_detail(
         );
 
     offset += 32;
-
     // --------------------------------------------------------
     // create_time
     // --------------------------------------------------------
-
     let create_time =
         i64::from_le_bytes(
             data[offset..offset + 8]
@@ -299,11 +289,9 @@ pub fn parse_voucher_detail(
         );
 
     offset += 8;
-
     // --------------------------------------------------------
     // redeem_time
     // --------------------------------------------------------
-
     let redeem_time =
         i64::from_le_bytes(
             data[offset..offset + 8]
@@ -314,11 +302,9 @@ pub fn parse_voucher_detail(
         );
 
     offset += 8;
-
     // --------------------------------------------------------
     // redeemer
     // --------------------------------------------------------
-
     let redeemer =
         Pubkey::new_from_array(
             data[offset..offset + 32]
@@ -466,22 +452,13 @@ pub fn export_vouchers_to_excel(
     vouchers: &[VoucherResult],
     decimals: u8,
 ) -> Result<(), Error> {
-
-    let mut workbook =
-        Workbook::new();
-
-    let worksheet =
-        workbook.add_worksheet();
-
-
+    let mut workbook = Workbook::new();
+    let worksheet = workbook.add_worksheet();
     // --------------------------------------------------------
     // Header format
     // --------------------------------------------------------
-
-    let header_format =
-        Format::new()
+    let header_format = Format::new()
             .set_bold();
-
 
     let headers = [
         "index",
@@ -489,15 +466,10 @@ pub fn export_vouchers_to_excel(
         "redeem_code",
         "signature",
     ];
-
-
     // --------------------------------------------------------
     // Header
     // --------------------------------------------------------
-
-    for (col, header)
-        in headers.iter().enumerate()
-    {
+    for (col, header) in headers.iter().enumerate(){
         worksheet.write_string_with_format(
             0,
             col as u16,
@@ -506,14 +478,10 @@ pub fn export_vouchers_to_excel(
         )?;
     }
 
-
     // --------------------------------------------------------
     // Rows
     // --------------------------------------------------------
-
-    for (index, voucher)
-        in vouchers.iter().enumerate()
-    {
+    for (index, voucher) in vouchers.iter().enumerate(){
         let row =
             (index + 1) as u32;
 
@@ -533,7 +501,6 @@ pub fn export_vouchers_to_excel(
             voucher.public_key.to_string(),
         )?;
 
-
         // private key
         worksheet.write_string(
             row,
@@ -549,11 +516,9 @@ pub fn export_vouchers_to_excel(
         )?;
     }
 
-
     // --------------------------------------------------------
     // Column width
     // --------------------------------------------------------
-
     worksheet.set_column_width(
         0,
         10.0,
@@ -606,4 +571,124 @@ pub fn export_vouchers_to_excel(
     workbook.save(filename)?;
 
     Ok(())
+}
+
+pub fn format_timestamp(timestamp: i64) -> String {
+    if timestamp == 0 {
+        return String::new();
+    }
+
+    match Utc.timestamp_opt(timestamp, 0).single() {
+        Some(dt) => {
+            dt.format("%Y-%m-%d %H:%M:%S UTC")
+                .to_string()
+        }
+
+        None => String::new(),
+    }
+}
+#[derive(Debug)]
+pub struct VaultCli {
+    pub owner: Pubkey,
+    pub mint: Pubkey,
+    pub balance: u64,
+    pub total_deposited: u64,
+    pub total_redeemed: u64,
+    pub total_withdrew: u64,
+    pub bump: u8,
+}
+pub fn parse_vault(
+    data: &[u8],
+) -> Result<VaultCli, Error> {
+
+    const DISCRIMINATOR_LEN: usize = 8;
+
+    const VAULT_DATA_LEN: usize =
+        8 + 32 + 32 + 8 + 8 + 8 + 8 + 1;
+
+    if data.len() < VAULT_DATA_LEN {
+        return Err(
+            format!(
+                "Invalid Vault account data length: {}, expected at least {}",
+                data.len(),
+                VAULT_DATA_LEN
+            )
+            .into()
+        );
+    }
+
+    let mut offset = DISCRIMINATOR_LEN;
+    let owner =
+        Pubkey::new_from_array(
+            data[offset..offset + 32]
+                .try_into()
+                .map_err(|_| {
+                    "Invalid Vault.owner"
+                })?
+        );
+
+    offset += 32;
+    let mint =
+        Pubkey::new_from_array(
+            data[offset..offset + 32]
+                .try_into()
+                .map_err(|_| {
+                    "Invalid Vault.mint"
+                })?
+        );
+
+    offset += 32;
+    let balance =
+        u64::from_le_bytes(
+            data[offset..offset + 8]
+                .try_into()
+                .map_err(|_| {
+                    "Invalid Vault.balance"
+                })?
+        );
+
+    offset += 8;
+    let total_deposited =
+        u64::from_le_bytes(
+            data[offset..offset + 8]
+                .try_into()
+                .map_err(|_| {
+                    "Invalid Vault.total_deposited"
+                })?
+        );
+
+    offset += 8;
+    let total_redeemed =
+        u64::from_le_bytes(
+            data[offset..offset + 8]
+                .try_into()
+                .map_err(|_| {
+                    "Invalid Vault.total_redeemed"
+                })?
+        );
+
+    offset += 8;
+    let total_withdrew =
+        u64::from_le_bytes(
+            data[offset..offset + 8]
+                .try_into()
+                .map_err(|_| {
+                    "Invalid Vault.total_withdrew"
+                })?
+        );
+
+    offset += 8;
+    let bump = data[offset];
+
+    Ok(
+        VaultCli {
+            owner,
+            mint,
+            balance,
+            total_deposited,
+            total_redeemed,
+            total_withdrew,
+            bump,
+        }
+    )
 }
