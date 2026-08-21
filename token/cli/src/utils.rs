@@ -1,10 +1,18 @@
-use sha2::{Digest, Sha256};
-use solana_sdk::{
-    pubkey::Pubkey, signature::{Signature, Signer}, 
+use {
+    sha2::{Digest, Sha256},
+    solana_sdk::{
+        pubkey::Pubkey, signature::{Signature, Signer}, transaction::Transaction,
+    },
+    serde_json::Value,
+    crate::{clap_app::Error},
+    solana_client::{ nonblocking::rpc_client::RpcClient,},
+    std::{rc::Rc, sync::Arc, time::Instant, str::FromStr,},
+    rust_xlsxwriter::{Format, Workbook},
+    chrono::Local,
+    spl_associated_token_account::{ error::AssociatedTokenAccountError, get_associated_token_address_with_program_id,
+        instruction::{create_associated_token_account,},
+    },
 };
-use serde_json::Value;
-use crate::{clap_app::Error};
-
 pub const ONS_PROGRAM_ID: &str = "on6LJ2wZa2jRAdnouvPtkAxLtZfVr9y8J7dMLgeDWLg";
 pub const ONS_API_URL: &str = "http://192.168.204.128:5056";
 pub const VOUCHER_PROGRAM_ID: &str = "vokWjyeSruKu2xoZkYNTz9fgW5Ba1rrrmzbXSQs3j59";
@@ -337,4 +345,263 @@ pub struct VoucherResult {
     pub public_key: Pubkey,
     pub redeem_code: String,
     pub signature: Signature,
+}
+
+pub fn keypair_from_base58(
+    private_key: &str,
+) -> Result<solana_sdk::signature::Keypair, Error> {
+
+    let bytes =
+        bs58::decode(
+            private_key.trim()
+        )
+        .into_vec()
+        .map_err(|e| {
+            format!("Invalid redeem-code.")
+        })?;
+
+    if bytes.len() != 64 {
+        return Err(
+            format!(
+                "Invalid redeem-code length: {}",
+                bytes.len()
+            )
+            .into()
+        );
+    }
+
+    let keypair =
+        solana_sdk::signature::Keypair::from_bytes(
+            &bytes
+        )
+        .map_err(|e| {
+            format!(
+                "Invalid redeem-code!"
+            )
+        })?;
+
+    Ok(keypair)
+}
+
+pub async fn get_or_create_token_ata(
+    rpc_client: &RpcClient,
+    payer: &Pubkey,
+    signers: &[Arc<dyn Signer>],
+    owner: &Pubkey,
+    mint: &Pubkey,
+) -> Result<Pubkey, Error> {
+    let token2022_program_pbk = Pubkey::from_str("Token9ADbPtdFC3PjxaohBLGw2pgZwofdcbj6Lyaw6c").unwrap();
+    let ata = get_associated_token_address_with_program_id(
+            owner,
+            mint,
+            &token2022_program_pbk,
+        );
+
+    match rpc_client.get_account(&ata).await {
+        Ok(_) => {
+            //println!( "ATA already exists: {}", ata);
+            return Ok(ata);
+            }
+        Err(_) => {
+        }
+    }
+
+    //println!("ATA does not exist, creating: {}",  ata);
+    let create_ata_ix = create_associated_token_account(
+            payer,
+            owner,
+            mint,
+            &token2022_program_pbk,
+        );
+
+    let blockhash = rpc_client.get_latest_blockhash().await?;
+    let mut transaction = Transaction::new_with_payer(&[create_ata_ix], Some(payer));
+    transaction.sign(signers, blockhash);
+
+    let simulation = rpc_client.simulate_transaction(&transaction).await?;
+
+    if let Some(err) = simulation.value.err{
+        println!("ATA creation simulation failed:");
+        for log in simulation
+            .value
+            .logs
+            .unwrap_or_default()
+        {
+            println!("{}", log);
+        }
+        return Err(format!("ATA creation simulation failed: {:?}", err).into());
+    }
+
+    let signature = rpc_client.send_and_confirm_transaction(&transaction).await?;
+    println!("ATA created successfully. tx: {}", signature);    
+
+    rpc_client
+        .get_account(&ata)
+        .await
+        .map_err(|e| {
+            println!("ATA creation transaction succeeded,but ATA {} does not exist: {}", ata, e)
+        });
+
+    Ok(ata)
+}
+pub async fn get_mint_decimals(rpc_client: &RpcClient, mint: &Pubkey) -> Result<u8, Error> {
+    let supply = rpc_client
+        .get_token_supply(mint)
+        .await
+        .map_err(|e| {
+            format!(
+                "Failed to get token supply for mint {}: {}",
+                mint,
+                e
+            )
+        })?;
+
+    Ok(supply.decimals)
+}
+
+pub fn export_vouchers_to_excel(
+    filename: &str,
+    vouchers: &[VoucherResult],
+    decimals: u8,
+) -> Result<(), Error> {
+
+    let mut workbook =
+        Workbook::new();
+
+    let worksheet =
+        workbook.add_worksheet();
+
+
+    // --------------------------------------------------------
+    // Header format
+    // --------------------------------------------------------
+
+    let header_format =
+        Format::new()
+            .set_bold();
+
+
+    let headers = [
+        "index",
+        "public_key",
+        "redeem_code",
+        "signature",
+    ];
+
+
+    // --------------------------------------------------------
+    // Header
+    // --------------------------------------------------------
+
+    for (col, header)
+        in headers.iter().enumerate()
+    {
+        worksheet.write_string_with_format(
+            0,
+            col as u16,
+            *header,
+            &header_format,
+        )?;
+    }
+
+
+    // --------------------------------------------------------
+    // Rows
+    // --------------------------------------------------------
+
+    for (index, voucher)
+        in vouchers.iter().enumerate()
+    {
+        let row =
+            (index + 1) as u32;
+
+
+        // index
+        worksheet.write_number(
+            row,
+            0,
+            voucher.index as f64,
+        )?;
+
+
+        // code
+        worksheet.write_string(
+            row,
+            1,
+            voucher.public_key.to_string(),
+        )?;
+
+
+        // private key
+        worksheet.write_string(
+            row,
+            2,
+            &voucher.redeem_code,
+        )?;
+
+        // tx
+        worksheet.write_string(
+            row,
+            3,
+            voucher.signature.to_string(),
+        )?;
+    }
+
+
+    // --------------------------------------------------------
+    // Column width
+    // --------------------------------------------------------
+
+    worksheet.set_column_width(
+        0,
+        10.0,
+    )?;
+
+    worksheet.set_column_width(
+        1,
+        45.0,
+    )?;
+
+    worksheet.set_column_width(
+        2,
+        90.0,
+    )?;
+
+    worksheet.set_column_width(
+        3,
+        45.0,
+    )?;
+
+    worksheet.set_column_width(
+        4,
+        45.0,
+    )?;
+
+    worksheet.set_column_width(
+        5,
+        50.0,
+    )?;
+
+    worksheet.set_column_width(
+        6,
+        20.0,
+    )?;
+
+    worksheet.set_column_width(
+        7,
+        25.0,
+    )?;
+
+    worksheet.set_column_width(
+        8,
+        12.0,
+    )?;
+
+    worksheet.set_column_width(
+        9,
+        90.0,
+    )?;
+    workbook.save(filename)?;
+
+    Ok(())
 }
