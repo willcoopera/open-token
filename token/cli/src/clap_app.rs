@@ -572,7 +572,7 @@ impl VoucherSubCommand for App<'_, '_> {
                         )
                         .arg(
                             Arg::with_name("quota")
-                                .validator(is_parsable::<u64>)
+                                .validator(is_amount)
                                 .value_name("QUOTA")
                                 .takes_value(true)
                                 .index(2)
@@ -617,7 +617,7 @@ impl VoucherSubCommand for App<'_, '_> {
                         )
                         .arg(
                             Arg::with_name("amount")
-                                .validator(is_parsable::<u64>)
+                                .validator(is_amount)
                                 .value_name("TOKEN_AMOUNT")
                                 .takes_value(true)
                                 .index(2)

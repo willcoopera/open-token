@@ -1,8 +1,9 @@
 use sha2::{Digest, Sha256};
 use solana_sdk::{
-    pubkey::Pubkey
+    pubkey::Pubkey, signature::{Signature, Signer}, 
 };
 use serde_json::Value;
+use crate::{clap_app::Error};
 
 pub const ONS_PROGRAM_ID: &str = "on6LJ2wZa2jRAdnouvPtkAxLtZfVr9y8J7dMLgeDWLg";
 pub const ONS_API_URL: &str = "http://192.168.204.128:5056";
@@ -177,4 +178,163 @@ impl AuthJsonConfigJson {
         };
         Some(json_value)
     }
+}
+
+#[derive(Debug)]
+pub struct VoucherDetailCli {
+    pub code: Pubkey,
+    pub mint: Pubkey,
+    pub quota: u64,
+    pub creator: Pubkey,
+    pub create_time: i64,
+    pub redeem_time: i64,
+    pub redeemer: Pubkey,
+}
+
+pub fn parse_voucher_detail(
+    data: &[u8],
+) -> Result<VoucherDetailCli, Error> {
+
+    // discriminator 8 bytes
+    const HEADER: usize = 8;
+
+    // 8 + 32 + 32 + 8 + 32 + 8 + 8 + 32
+    const SIZE: usize =
+        8 + 32 + 32 + 8 + 32 + 8 + 8 + 32;
+
+    if data.len() < SIZE {
+        return Err(
+            format!(
+                "VoucherDetail account data too short: {} < {}",
+                data.len(),
+                SIZE
+            )
+            .into()
+        );
+    }
+
+    let mut offset = HEADER;
+
+    // --------------------------------------------------------
+    // code
+    // --------------------------------------------------------
+
+    let code =
+        Pubkey::new_from_array(
+            data[offset..offset + 32]
+                .try_into()
+                .map_err(|_| {
+                    "Invalid code pubkey"
+                })?
+        );
+
+    offset += 32;
+
+    // --------------------------------------------------------
+    // mint
+    // --------------------------------------------------------
+
+    let mint =
+        Pubkey::new_from_array(
+            data[offset..offset + 32]
+                .try_into()
+                .map_err(|_| {
+                    "Invalid mint pubkey"
+                })?
+        );
+
+    offset += 32;
+
+    // --------------------------------------------------------
+    // quota
+    // --------------------------------------------------------
+
+    let quota =
+        u64::from_le_bytes(
+            data[offset..offset + 8]
+                .try_into()
+                .map_err(|_| {
+                    "Invalid quota"
+                })?
+        );
+
+    offset += 8;
+
+    // --------------------------------------------------------
+    // creator
+    // --------------------------------------------------------
+
+    let creator =
+        Pubkey::new_from_array(
+            data[offset..offset + 32]
+                .try_into()
+                .map_err(|_| {
+                    "Invalid creator pubkey"
+                })?
+        );
+
+    offset += 32;
+
+    // --------------------------------------------------------
+    // create_time
+    // --------------------------------------------------------
+
+    let create_time =
+        i64::from_le_bytes(
+            data[offset..offset + 8]
+                .try_into()
+                .map_err(|_| {
+                    "Invalid create_time"
+                })?
+        );
+
+    offset += 8;
+
+    // --------------------------------------------------------
+    // redeem_time
+    // --------------------------------------------------------
+
+    let redeem_time =
+        i64::from_le_bytes(
+            data[offset..offset + 8]
+                .try_into()
+                .map_err(|_| {
+                    "Invalid redeem_time"
+                })?
+        );
+
+    offset += 8;
+
+    // --------------------------------------------------------
+    // redeemer
+    // --------------------------------------------------------
+
+    let redeemer =
+        Pubkey::new_from_array(
+            data[offset..offset + 32]
+                .try_into()
+                .map_err(|_| {
+                    "Invalid redeemer pubkey"
+                })?
+        );
+
+    Ok(
+        VoucherDetailCli {
+            code,
+            mint,
+            quota,
+            creator,
+            create_time,
+            redeem_time,
+            redeemer,
+        }
+    )
+}
+
+#[derive(Debug)]
+pub struct VoucherResult {
+    pub index: u64,
+    pub public_key: Pubkey,
+    pub redeem_code: String,
+    pub signature: Signature,
 }
