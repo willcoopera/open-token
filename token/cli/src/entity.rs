@@ -204,6 +204,30 @@ pub fn parse_enity_full_name(uri: &str) -> Result<Vec<String>, Error> {
     Ok(parent_names)
 }
 
+pub fn extract_json_str(data: &[u8]) -> Result<&str, Error> {
+    const HEADER_LEN: usize = 44;
+
+    if data.len() < HEADER_LEN {
+        return Err(format!("Data length ({}) < 44", data.len()).into());
+    }
+
+    let json_len = u32::from_le_bytes([data[40], data[41], data[42], data[43]]) as usize;
+    let json_end = HEADER_LEN
+        .checked_add(json_len)
+        .ok_or("JSON length overflowed usize")?;
+
+    if json_end > data.len() {
+        return Err(format!(
+            "Data length error: required {} bytes, but data len is {}",
+            json_end,
+            data.len()
+        ).into());
+    }
+
+    let json_str = std::str::from_utf8(&data[HEADER_LEN..json_end])?;
+    Ok(json_str)
+}
+
 async fn command_create(
     config: &Config<'_>,
     signers: Vec<Arc<dyn Signer>>,
@@ -228,6 +252,7 @@ async fn command_create(
     let (meta_pubkey, _meta_bump) = find_pda(&[b"meta", &name_hash], program_id);
     let (body_pubkey, _body_bump) = find_pda(&[b"body", &name_hash], program_id);
     let (tpl_pubkey, _tpl_bump) = find_pda(&[b"entity_tpl"], program_id);
+    let (protocol_pubkey, _treasury_bump) = find_pda(&[b"treasury_config"], program_id);
     let token2022_program_pbk = Pubkey::from_str("Token9ADbPtdFC3PjxaohBLGw2pgZwofdcbj6Lyaw6c").unwrap();
 
     let mut main_accounts = vec![
@@ -237,88 +262,67 @@ async fn command_create(
         AccountMeta::new_readonly(tpl_pubkey, false),
         AccountMeta::new(*payer_pbk, true), // operator
         AccountMeta::new_readonly(solana_sdk::system_program::ID, false),
-        AccountMeta::new_readonly(spl_associated_token_account::ID, false),
     ];
 
-    let parents_names = parse_enity_full_name(&name)?;
-    let mut fee_receivers_arr = vec![];
-    let mut meta_arr = vec![];
-    let mut parent_configs = vec![];
+    let allParentNames = parse_enity_full_name(&name)?;
+    let allNamesLength = allParentNames.len();
+    let parent_name = allParentNames[allNamesLength - 2].clone();
+    let eco_name = allParentNames[0].clone();
 
-    for i in 0..(parents_names.len() - 1) {
-        let parent = &parents_names[i];
-        let parent_hash = hash_name(parent);
-        let (meta_pda, _) = find_pda(&[b"meta", &parent_hash], program_id);
+    let parent_hash = hash_name(&parent_name);
+    let (parent_meta_pda, _) = find_pda(&[b"meta", &parent_hash], program_id);
+    let parent_meta_account = rpc_client.get_account(&parent_meta_pda).await
+        .map_err(|_| format!("Meta config account does not exist: {}", parent_meta_pda))?;    
+    let parent_json_str = extract_json_str(&parent_meta_account.data)?;
+    let parent_config: MetaConfig = serde_json::from_str(parent_json_str)?;    
+    let parent_fee_receiver_pubkey = Pubkey::from_str(&parent_config.fee_receiver)
+        .map_err(|_| format!("invalid fee receiver pubkey: {}", parent_config.fee_receiver))?;
+    main_accounts.push(AccountMeta::new(protocol_pubkey, false));
+    main_accounts.push(AccountMeta::new(parent_fee_receiver_pubkey, false));
 
-        let meta_account = rpc_client.get_account(&meta_pda).await
-            .map_err(|_| format!("Meta config account does not exist: {}", meta_pda))?;
-        let data = &meta_account.data;
-        if data.len() < 44 { continue; }
-        let json_len = u32::from_le_bytes([data[40], data[41], data[42], data[43]]) as usize;
-        let json_start = 44;
-        if json_start + json_len > data.len() { continue; }
-        let json_str = std::str::from_utf8(&data[json_start..json_start + json_len])?;
-        let config: MetaConfig = serde_json::from_str(json_str)?;
-        parent_configs.push(config.clone());
-        let fee_receiver_pubkey = Pubkey::from_str(&config.fee_receiver)
-            .map_err(|_| format!("invalid fee receiver pubkey: {}", config.fee_receiver))?;
-        fee_receivers_arr.push(fee_receiver_pubkey);
-        meta_arr.push(meta_pda);
-    }
-    while meta_arr.len() < 4 {
-        meta_arr.push(meta_arr[0]);
-    }
-    for i in 0 .. meta_arr.len() {
-        main_accounts.push(AccountMeta::new_readonly(meta_arr[i], false));
-    }
-    while fee_receivers_arr.len() < 4 {
-        fee_receivers_arr.push(fee_receivers_arr[0]);
-    }
-    for i in 0 .. fee_receivers_arr.len() {
-        main_accounts.push(AccountMeta::new(fee_receivers_arr[i], false));
-    }
+    let protocol_meta_account = rpc_client.get_account(&protocol_pubkey).await
+        .map_err(|_| format!("protocol config account does not exist: {}", protocol_pubkey))?; 
+    let protocol_json_str = extract_json_str(&protocol_meta_account.data)?;
+    let protocol_config: TreasuryConfig = serde_json::from_str(protocol_json_str)?;
+    let protocol_fee_receiver_pubkey = Pubkey::from_str(&protocol_config.fee_receiver)
+        .map_err(|_| format!("invalid fee receiver pubkey: {}", protocol_config.fee_receiver))?;
+    main_accounts.push(AccountMeta::new(protocol_fee_receiver_pubkey, false));
+
+    let eco_hash = hash_name(&eco_name);
+    let (eco_meta_pda, _) = find_pda(&[b"meta", &eco_hash], program_id);
+    let eco_meta_account = rpc_client.get_account(&eco_meta_pda).await
+        .map_err(|_| format!("Eco meta config account does not exist: {}", eco_meta_pda))?;
+    let eco_json_str = extract_json_str(&eco_meta_account.data)?;
+    let eco_config: MetaConfig = serde_json::from_str(eco_json_str)?;
+    let pay_token_str = eco_config.pay_token.ok_or("wrong paytoken")?;
 
     let mut all_remaining_accounts = vec![];
-    let mut pay_token_mint = None;
-    let mut from_ata = None;
-    let mut pay_token = "";
 
-    for (i, config) in parent_configs.iter().enumerate() {
-        if pay_token == "" {
-            pay_token = config.pay_token
-                .as_deref()
-                .unwrap_or("11111111111111111111111111111111111111111111");
-        }
+    all_remaining_accounts.push(AccountMeta::new(eco_meta_pda, false));
+    all_remaining_accounts.push(AccountMeta::new(parent_meta_pda, false));
 
-        if pay_token == "11111111111111111111111111111111111111111111" {
-            continue; 
-        } else {
-            let mint_pubkey = Pubkey::from_str(&pay_token)?;
-            if let None = pay_token_mint {
-                pay_token_mint = Some(mint_pubkey);
-                from_ata = Some(spl_associated_token_account::get_associated_token_address_with_program_id(
-                    payer_pbk, 
-                    &mint_pubkey,
-                    &token2022_program_pbk
-                ));
-            }
-            let to_ata = spl_associated_token_account::get_associated_token_address_with_program_id(
-                &fee_receivers_arr[i],
-                &mint_pubkey,
-                &token2022_program_pbk
-            );
+    if pay_token_str != "11111111111111111111111111111111111111111111" {
+        let mint_pubkey = Pubkey::from_str(&pay_token_str)
+            .map_err(|_| format!("invalid mint pubkey: {}", pay_token_str))?;
 
-            all_remaining_accounts.push(AccountMeta::new(to_ata, false)); // to_ata
-        }
-    }
-    if let Some(from_ata_pubkey) = from_ata {        
-        all_remaining_accounts.push(AccountMeta::new(from_ata_pubkey, false));             // mint        
-    }
-    all_remaining_accounts.push(AccountMeta::new(*payer_pbk, true));           // authority
-    if let Some(mint_pubkey) = pay_token_mint {        
+        let from_ata = spl_associated_token_account::get_associated_token_address_with_program_id(
+            payer_pbk, 
+            &mint_pubkey,
+            &token2022_program_pbk
+        );
+
+        let to_ata = spl_associated_token_account::get_associated_token_address_with_program_id(
+            &parent_fee_receiver_pubkey,
+            &mint_pubkey,
+            &token2022_program_pbk
+        );
+
+        all_remaining_accounts.push(AccountMeta::new(to_ata, false)); // to_ata
+        all_remaining_accounts.push(AccountMeta::new(from_ata, false)); 
+        all_remaining_accounts.push(AccountMeta::new(*payer_pbk, true));           // authority
         all_remaining_accounts.push(AccountMeta::new(mint_pubkey, false));             // mint        
-    }
-    all_remaining_accounts.push(AccountMeta::new_readonly(token2022_program_pbk, false)); // token_program
+        all_remaining_accounts.push(AccountMeta::new_readonly(token2022_program_pbk, false)); // token_program
+    }    
 
     let mut data = Vec::new();
     data.extend_from_slice(&instruction_discriminator("entity_create"));
@@ -499,93 +503,71 @@ async fn command_renew_ownership(
     println!("entity ownership renew...");
     let name_hash = hash_name(&name);
     let (header_pubkey, _header_bump) = find_pda(&[b"name", &name_hash], program_id);  
+    let (protocol_pubkey, _treasury_bump) = find_pda(&[b"treasury_config"], program_id);
     let token2022_program_pbk = Pubkey::from_str("Token9ADbPtdFC3PjxaohBLGw2pgZwofdcbj6Lyaw6c").unwrap();
 
     let mut main_accounts = vec![
         AccountMeta::new(header_pubkey, false),
         AccountMeta::new(*payer_pbk, true), // operator
         AccountMeta::new_readonly(solana_sdk::system_program::ID, false),
-        AccountMeta::new_readonly(spl_associated_token_account::ID, false),
     ];
 
-    let parents_names = parse_enity_full_name(&name)?;
-    let mut fee_receivers_arr = vec![];
-    let mut meta_arr = vec![];
-    let mut parent_configs = vec![];
+    let allParentNames = parse_enity_full_name(&name)?;
+    let allNamesLength = allParentNames.len();
+    let parent_name = allParentNames[allNamesLength - 2].clone();
+    let eco_name = allParentNames[0].clone();
 
-    for i in 0..(parents_names.len() - 1) {
-        let parent = &parents_names[i];
-        let parent_hash = hash_name(parent);
-        let (meta_pda, _) = find_pda(&[b"meta", &parent_hash], program_id);
+    let parent_hash = hash_name(&parent_name);
+    let (parent_meta_pda, _) = find_pda(&[b"meta", &parent_hash], program_id);
+    let parent_meta_account = rpc_client.get_account(&parent_meta_pda).await
+        .map_err(|_| format!("Meta config account does not exist: {}", parent_meta_pda))?;    
+    let parent_json_str = extract_json_str(&parent_meta_account.data)?;
+    let parent_config: MetaConfig = serde_json::from_str(parent_json_str)?;    
+    let parent_fee_receiver_pubkey = Pubkey::from_str(&parent_config.fee_receiver)
+        .map_err(|_| format!("invalid fee receiver pubkey: {}", parent_config.fee_receiver))?;
+    main_accounts.push(AccountMeta::new(protocol_pubkey, false));
+    main_accounts.push(AccountMeta::new(parent_fee_receiver_pubkey, false));
 
-        let meta_account = rpc_client.get_account(&meta_pda).await
-            .map_err(|_| format!("Meta config account does not exist: {}", meta_pda))?;
-        let data = &meta_account.data;
-        if data.len() < 44 { continue; }
-        let json_len = u32::from_le_bytes([data[40], data[41], data[42], data[43]]) as usize;
-        let json_start = 44;
-        if json_start + json_len > data.len() { continue; }
-        let json_str = std::str::from_utf8(&data[json_start..json_start + json_len])?;
-        let config: MetaConfig = serde_json::from_str(json_str)?;
-        parent_configs.push(config.clone());
-        let fee_receiver_pubkey = Pubkey::from_str(&config.fee_receiver)
-            .map_err(|_| format!("invalid fee receiver pubkey: {}", config.fee_receiver))?;
-        fee_receivers_arr.push(fee_receiver_pubkey);
-        meta_arr.push(meta_pda);
-    }
-    while meta_arr.len() < 4 {
-        meta_arr.push(meta_arr[0]);
-    }
-    for i in 0 .. meta_arr.len() {
-        main_accounts.push(AccountMeta::new_readonly(meta_arr[i], false));
-    }
-    while fee_receivers_arr.len() < 4 {
-        fee_receivers_arr.push(fee_receivers_arr[0]);
-    }
-    for i in 0 .. fee_receivers_arr.len() {
-        main_accounts.push(AccountMeta::new(fee_receivers_arr[i], false));
-    }
+    let protocol_meta_account = rpc_client.get_account(&protocol_pubkey).await
+        .map_err(|_| format!("protocol config account does not exist: {}", protocol_pubkey))?; 
+    let protocol_json_str = extract_json_str(&protocol_meta_account.data)?;
+    let protocol_config: TreasuryConfig = serde_json::from_str(protocol_json_str)?;
+    let protocol_fee_receiver_pubkey = Pubkey::from_str(&protocol_config.fee_receiver)
+        .map_err(|_| format!("invalid fee receiver pubkey: {}", protocol_config.fee_receiver))?;    
+    main_accounts.push(AccountMeta::new(protocol_fee_receiver_pubkey, false));
+
+    let eco_hash = hash_name(&eco_name);
+    let (eco_meta_pda, _) = find_pda(&[b"meta", &eco_hash], program_id);
+    let eco_meta_account = rpc_client.get_account(&eco_meta_pda).await
+        .map_err(|_| format!("Eco meta config account does not exist: {}", eco_meta_pda))?;
+    let eco_json_str = extract_json_str(&eco_meta_account.data)?;
+    let eco_config: MetaConfig = serde_json::from_str(eco_json_str)?;
+    let pay_token_str = eco_config.pay_token.ok_or("wrong paytoken")?;    
 
     let mut all_remaining_accounts = vec![];
-    let mut pay_token_mint = None;
-    let mut from_ata = None;
-    let mut pay_token = "";
+    all_remaining_accounts.push(AccountMeta::new(eco_meta_pda, false));
+    all_remaining_accounts.push(AccountMeta::new(parent_meta_pda, false));
 
-    for (i, config) in parent_configs.iter().enumerate() {
-        if pay_token == "" {
-            pay_token = config.pay_token
-                .as_deref()
-                .unwrap_or("11111111111111111111111111111111111111111111");
-        }
+    if pay_token_str != "11111111111111111111111111111111111111111111" {
+        let mint_pubkey = Pubkey::from_str(&pay_token_str)
+            .map_err(|_| format!("invalid mint pubkey: {}", pay_token_str))?;
 
-        if pay_token == "11111111111111111111111111111111111111111111" {
-            continue; 
-        } else {
-            let mint_pubkey = Pubkey::from_str(&pay_token)?;
-            if let None = pay_token_mint {
-                pay_token_mint = Some(mint_pubkey);
-                from_ata = Some(spl_associated_token_account::get_associated_token_address_with_program_id(
-                    payer_pbk, 
-                    &mint_pubkey,
-                    &token2022_program_pbk));
-            }
-            let to_ata = spl_associated_token_account::get_associated_token_address_with_program_id(
-                &fee_receivers_arr[i],
+        let from_ata = spl_associated_token_account::get_associated_token_address_with_program_id(
+                payer_pbk, 
                 &mint_pubkey,
-                &token2022_program_pbk
-            );
+                &token2022_program_pbk);
+        let to_ata = spl_associated_token_account::get_associated_token_address_with_program_id(
+            &parent_fee_receiver_pubkey,
+            &mint_pubkey,
+            &token2022_program_pbk
+        );
 
-            all_remaining_accounts.push(AccountMeta::new(to_ata, false)); // to_ata
-        }
-    }
-    if let Some(from_ata_pubkey) = from_ata {        
-        all_remaining_accounts.push(AccountMeta::new(from_ata_pubkey, false));             // mint        
-    }
-    all_remaining_accounts.push(AccountMeta::new(*payer_pbk, true));           // authority
-    if let Some(mint_pubkey) = pay_token_mint {        
+        all_remaining_accounts.push(AccountMeta::new(to_ata, false)); // to_ata
+        all_remaining_accounts.push(AccountMeta::new(from_ata, false));             // mint        
+        all_remaining_accounts.push(AccountMeta::new(*payer_pbk, true));           // authority
         all_remaining_accounts.push(AccountMeta::new(mint_pubkey, false));             // mint        
+        all_remaining_accounts.push(AccountMeta::new_readonly(token2022_program_pbk, false)); // token_program
     }
-    all_remaining_accounts.push(AccountMeta::new_readonly(token2022_program_pbk, false)); // token_program
 
     let mut data = Vec::new();
     data.extend_from_slice(&instruction_discriminator("entity_owner_renew"));
@@ -761,6 +743,7 @@ async fn command_sale_bid(
     let name_hash = hash_name(&name);
     let (header_pubkey, _header_bump) = find_pda(&[b"name", &name_hash], program_id);
     let (meta_pubkey, _meta_bump) = find_pda(&[b"meta", &name_hash], program_id);
+    let (protocol_pubkey, _treasury_bump) = find_pda(&[b"treasury_config"], program_id);
     let (body_pubkey, _body_bump) = find_pda(&[b"body", &name_hash], program_id);   
     let token2022_program_pbk = Pubkey::from_str("Token9ADbPtdFC3PjxaohBLGw2pgZwofdcbj6Lyaw6c").unwrap();
 
@@ -770,86 +753,58 @@ async fn command_sale_bid(
         AccountMeta::new(body_pubkey, false),
         AccountMeta::new(*payer_pbk, true), // operator
         AccountMeta::new_readonly(solana_sdk::system_program::ID, false),
-        AccountMeta::new_readonly(spl_associated_token_account::ID, false),
     ];
-    let parents_names = parse_enity_full_name(&name)?;
-    let mut fee_receivers_arr = vec![];
-    let mut meta_arr = vec![];
-    let mut parent_configs = vec![];
 
-    for i in 0..(parents_names.len()) {
-        let parent = &parents_names[i];
-        let parent_hash = hash_name(parent);
-        let (meta_pda, _) = find_pda(&[b"meta", &parent_hash], program_id);
+    let allParentNames = parse_enity_full_name(&name)?;
+    let allNamesLength = allParentNames.len();
+    let parent_name = allParentNames[allNamesLength - 2].clone();
+    let eco_name = allParentNames[0].clone();
 
-        let meta_account = rpc_client.get_account(&meta_pda).await
-            .map_err(|_| format!("Meta config account does not exist: {}", meta_pda))?;
-        let data = &meta_account.data;
-        if data.len() < 44 { continue; }
-        let json_len = u32::from_le_bytes([data[40], data[41], data[42], data[43]]) as usize;
-        let json_start = 44;
-        if json_start + json_len > data.len() { continue; }
-        let json_str = std::str::from_utf8(&data[json_start..json_start + json_len])?;
-        let config: MetaConfig = serde_json::from_str(json_str)?;
-        parent_configs.push(config.clone());
-        let fee_receiver_pubkey = Pubkey::from_str(&config.fee_receiver)
-            .map_err(|_| format!("invalid fee receiver pubkey: {}", config.fee_receiver))?;
-        fee_receivers_arr.push(fee_receiver_pubkey);
-        meta_arr.push(meta_pda);
-    }
-    while meta_arr.len() < 5 {
-        meta_arr.push(meta_arr[0]);
-    }
-    for i in 0 .. meta_arr.len() {
-        main_accounts.push(AccountMeta::new_readonly(meta_arr[i], false));
-    }
-    while fee_receivers_arr.len() < 5 {
-        fee_receivers_arr.push(fee_receivers_arr[0]);
-    }
-    for i in 0 .. fee_receivers_arr.len() {
-        main_accounts.push(AccountMeta::new(fee_receivers_arr[i], false));
-    }
+    let protocol_meta_account = rpc_client.get_account(&protocol_pubkey).await
+        .map_err(|_| format!("protocol config account does not exist: {}", protocol_pubkey))?; 
+    let protocol_json_str = extract_json_str(&protocol_meta_account.data)?;
+    let protocol_config: TreasuryConfig = serde_json::from_str(protocol_json_str)?;
+    let protocol_fee_receiver_pubkey = Pubkey::from_str(&protocol_config.fee_receiver)
+        .map_err(|_| format!("invalid fee receiver pubkey: {}", protocol_config.fee_receiver))?;
+    main_accounts.push(AccountMeta::new(protocol_pubkey, false));
+    main_accounts.push(AccountMeta::new(protocol_fee_receiver_pubkey, false));
+
+    let meta_account = rpc_client.get_account(&meta_pubkey).await
+        .map_err(|_| format!("Meta config account does not exist: {}", meta_pubkey))?;    
+    let json_str = extract_json_str(&meta_account.data)?;
+    let config: MetaConfig = serde_json::from_str(json_str)?;    
+    let fee_receiver_pubkey = Pubkey::from_str(&config.fee_receiver)
+        .map_err(|_| format!("invalid fee receiver pubkey: {}", config.fee_receiver))?;    
+    main_accounts.push(AccountMeta::new(fee_receiver_pubkey, false));
+
+    let eco_hash = hash_name(&eco_name);
+    let (eco_meta_pda, _) = find_pda(&[b"meta", &eco_hash], program_id);
+    let eco_meta_account = rpc_client.get_account(&eco_meta_pda).await
+        .map_err(|_| format!("Eco meta config account does not exist: {}", eco_meta_pda))?;
+    let eco_json_str = extract_json_str(&eco_meta_account.data)?;
+    let eco_config: MetaConfig = serde_json::from_str(eco_json_str)?;
+    let pay_token_str = eco_config.pay_token.ok_or("wrong paytoken")?;
 
     let mut all_remaining_accounts = vec![];
-    let mut pay_token_mint = None;
-    let mut from_ata = None;
-    let mut pay_token = "";
+    all_remaining_accounts.push(AccountMeta::new(eco_meta_pda, false));
 
-    for (i, config) in parent_configs.iter().enumerate() {
-        if pay_token == "" {
-            pay_token = config.pay_token
-                .as_deref()
-                .unwrap_or("11111111111111111111111111111111111111111111");
-        }
-
-        if pay_token == "11111111111111111111111111111111111111111111" {
-            continue; 
-        } else {
-            let mint_pubkey = Pubkey::from_str(&pay_token)?;
-            if let None = pay_token_mint {
-                pay_token_mint = Some(mint_pubkey);
-                from_ata = Some(spl_associated_token_account::get_associated_token_address_with_program_id(
-                    payer_pbk, 
-                    &mint_pubkey,
-                    &token2022_program_pbk));
-            }
-            let to_ata = spl_associated_token_account::get_associated_token_address_with_program_id(
-                &fee_receivers_arr[i],
+    if pay_token_str != "11111111111111111111111111111111111111111111" {
+        let mint_pubkey = Pubkey::from_str(&pay_token_str)?;
+        let from_ata = spl_associated_token_account::get_associated_token_address_with_program_id(
+                payer_pbk, 
                 &mint_pubkey,
-                &token2022_program_pbk
-            );
-
-            all_remaining_accounts.push(AccountMeta::new(to_ata, false)); // to_ata
-        }
-    }
-    if let Some(from_ata_pubkey) = from_ata {        
-        all_remaining_accounts.push(AccountMeta::new(from_ata_pubkey, false));             // mint        
-    }
-    all_remaining_accounts.push(AccountMeta::new(*payer_pbk, true));           // authority
-    if let Some(mint_pubkey) = pay_token_mint {        
+                &token2022_program_pbk);
+        let to_ata = spl_associated_token_account::get_associated_token_address_with_program_id(
+            &fee_receiver_pubkey,
+            &mint_pubkey,
+            &token2022_program_pbk
+        );
+        all_remaining_accounts.push(AccountMeta::new(to_ata, false)); // to_ata
+        all_remaining_accounts.push(AccountMeta::new(from_ata, false));             // mint        
+        all_remaining_accounts.push(AccountMeta::new(*payer_pbk, true));           // authority
         all_remaining_accounts.push(AccountMeta::new(mint_pubkey, false));             // mint        
+        all_remaining_accounts.push(AccountMeta::new_readonly(token2022_program_pbk, false)); // token_program
     }
-    all_remaining_accounts.push(AccountMeta::new_readonly(token2022_program_pbk, false)); // token_program
 
     let mut data = Vec::new();
     data.extend_from_slice(&instruction_discriminator("entity_sale_bid"));
@@ -959,94 +914,70 @@ async fn command_rent_bid(
     println!("entity rent bid...");
     let name_hash = hash_name(&name);
     let (header_pubkey, _header_bump) = find_pda(&[b"name", &name_hash], program_id);
+    let (meta_pubkey, _meta_bump) = find_pda(&[b"meta", &name_hash], program_id);
     let (rent_pubkey, _rent_bump) = find_pda(&[b"rent", &name_hash], program_id);
+    let (protocol_pubkey, _treasury_bump) = find_pda(&[b"treasury_config"], program_id);
     let token2022_program_pbk = Pubkey::from_str("Token9ADbPtdFC3PjxaohBLGw2pgZwofdcbj6Lyaw6c").unwrap();
 
     let mut main_accounts = vec![
         AccountMeta::new(header_pubkey, false),
+        AccountMeta::new(meta_pubkey, false),
         AccountMeta::new(rent_pubkey, false),
         AccountMeta::new(*payer_pbk, true), // operator
         AccountMeta::new_readonly(solana_sdk::system_program::ID, false),
-        AccountMeta::new_readonly(spl_associated_token_account::ID, false),
     ];
-    let parents_names = parse_enity_full_name(&name)?;
-    let mut fee_receivers_arr = vec![];
-    let mut meta_arr = vec![];
-    let mut parent_configs = vec![];
+    let allParentNames = parse_enity_full_name(&name)?;
+    let allNamesLength = allParentNames.len();
+    let parent_name = allParentNames[allNamesLength - 2].clone();
+    let eco_name = allParentNames[0].clone();
 
-    for i in 0..(parents_names.len()) {
-        let parent = &parents_names[i];
-        let parent_hash = hash_name(parent);
-        let (meta_pda, _) = find_pda(&[b"meta", &parent_hash], program_id);
+    let meta_account = rpc_client.get_account(&meta_pubkey).await
+        .map_err(|_| format!("Meta config account does not exist: {}", meta_pubkey))?;    
+    let json_str = extract_json_str(&meta_account.data)?;
+    let config: MetaConfig = serde_json::from_str(json_str)?;    
+    let fee_receiver_pubkey = Pubkey::from_str(&config.fee_receiver)
+        .map_err(|_| format!("invalid fee receiver pubkey: {}", config.fee_receiver))?;    
+	
+    main_accounts.push(AccountMeta::new(protocol_pubkey, false));
+    main_accounts.push(AccountMeta::new(fee_receiver_pubkey, false));
 
-        let meta_account = rpc_client.get_account(&meta_pda).await
-            .map_err(|_| format!("Meta config account does not exist: {}", meta_pda))?;
-        let data = &meta_account.data;
-        if data.len() < 44 { continue; }
-        let json_len = u32::from_le_bytes([data[40], data[41], data[42], data[43]]) as usize;
-        let json_start = 44;
-        if json_start + json_len > data.len() { continue; }
-        let json_str = std::str::from_utf8(&data[json_start..json_start + json_len])?;
-        let config: MetaConfig = serde_json::from_str(json_str)?;
-        parent_configs.push(config.clone());
-        let fee_receiver_pubkey = Pubkey::from_str(&config.fee_receiver)
-            .map_err(|_| format!("invalid fee receiver pubkey: {}", config.fee_receiver))?;
-        fee_receivers_arr.push(fee_receiver_pubkey);
-        meta_arr.push(meta_pda);
-    }
-    while meta_arr.len() < 5 {
-        meta_arr.push(meta_arr[0]);
-    }
-    for i in 0 .. meta_arr.len() {
-        main_accounts.push(AccountMeta::new_readonly(meta_arr[i], false));
-    }
-    while fee_receivers_arr.len() < 5 {
-        fee_receivers_arr.push(fee_receivers_arr[0]);
-    }
-    for i in 0 .. fee_receivers_arr.len() {
-        main_accounts.push(AccountMeta::new(fee_receivers_arr[i], false));
-    }
+    let protocol_meta_account = rpc_client.get_account(&protocol_pubkey).await
+        .map_err(|_| format!("protocol config account does not exist: {}", protocol_pubkey))?; 
+    let protocol_json_str = extract_json_str(&protocol_meta_account.data)?;
+    let protocol_config: TreasuryConfig = serde_json::from_str(protocol_json_str)?;
+    let protocol_fee_receiver_pubkey = Pubkey::from_str(&protocol_config.fee_receiver)
+        .map_err(|_| format!("invalid fee receiver pubkey: {}", protocol_config.fee_receiver))?;
+    main_accounts.push(AccountMeta::new(protocol_fee_receiver_pubkey, false));
+
+    let eco_hash = hash_name(&eco_name);
+    let (eco_meta_pda, _) = find_pda(&[b"meta", &eco_hash], program_id);
+    let eco_meta_account = rpc_client.get_account(&eco_meta_pda).await
+        .map_err(|_| format!("Eco meta config account does not exist: {}", eco_meta_pda))?;
+    let eco_json_str = extract_json_str(&eco_meta_account.data)?;
+    let eco_config: MetaConfig = serde_json::from_str(eco_json_str)?;
+    let pay_token_str = eco_config.pay_token.ok_or("wrong paytoken")?;
 
     let mut all_remaining_accounts = vec![];
-    let mut pay_token_mint = None;
-    let mut from_ata = None;
-    let mut pay_token = "";
+    all_remaining_accounts.push(AccountMeta::new(eco_meta_pda, false));
 
-    for (i, config) in parent_configs.iter().enumerate() {
-        if pay_token == "" {
-            pay_token = config.pay_token
-                .as_deref()
-                .unwrap_or("11111111111111111111111111111111111111111111");
-        }
-
-        if pay_token == "11111111111111111111111111111111111111111111" {
-            continue; 
-        } else {
-            let mint_pubkey = Pubkey::from_str(&pay_token)?;
-            if let None = pay_token_mint {
-                pay_token_mint = Some(mint_pubkey);
-                from_ata = Some(spl_associated_token_account::get_associated_token_address_with_program_id(
-                    payer_pbk, 
-                    &mint_pubkey,
-                    &token2022_program_pbk));
-            }
-            let to_ata = spl_associated_token_account::get_associated_token_address_with_program_id(
-                &fee_receivers_arr[i],
+    if pay_token_str != "11111111111111111111111111111111111111111111" {
+        let mint_pubkey = Pubkey::from_str(&pay_token_str)?;
+        let from_ata = spl_associated_token_account::get_associated_token_address_with_program_id(
+                payer_pbk, 
                 &mint_pubkey,
-                &token2022_program_pbk
-            );
+                &token2022_program_pbk);
+        let to_ata = spl_associated_token_account::get_associated_token_address_with_program_id(
+            &fee_receiver_pubkey,
+            &mint_pubkey,
+            &token2022_program_pbk
+        );
 
-            all_remaining_accounts.push(AccountMeta::new(to_ata, false)); // to_ata
-        }
-    }
-    if let Some(from_ata_pubkey) = from_ata {        
-        all_remaining_accounts.push(AccountMeta::new(from_ata_pubkey, false));             // mint        
-    }
-    all_remaining_accounts.push(AccountMeta::new(*payer_pbk, true));           // authority
-    if let Some(mint_pubkey) = pay_token_mint {        
+        all_remaining_accounts.push(AccountMeta::new(to_ata, false)); // to_ata
+        all_remaining_accounts.push(AccountMeta::new(from_ata, false));             // mint        
+        all_remaining_accounts.push(AccountMeta::new(*payer_pbk, true));           // authority
         all_remaining_accounts.push(AccountMeta::new(mint_pubkey, false));             // mint        
+        all_remaining_accounts.push(AccountMeta::new_readonly(token2022_program_pbk, false)); // token_program
     }
-    all_remaining_accounts.push(AccountMeta::new_readonly(token2022_program_pbk, false)); // token_program
 
     let mut data = Vec::new();
     data.extend_from_slice(&instruction_discriminator("entity_rent_bid"));
