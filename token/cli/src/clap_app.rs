@@ -1266,33 +1266,33 @@ pub(crate) trait OnsSubCommand {
 impl OnsSubCommand for App<'_, '_> {
     fn ons_subcommand(self) -> Self {
         self.subcommand(
-            SubCommand::with_name("ons")
-                .about("Ons facilities")
+            SubCommand::with_name("uns")
+                .about("Uns facilities")
                 .setting(AppSettings::InferSubcommands)
                 .setting(AppSettings::SubcommandRequiredElseHelp)                
                 .subcommand(
                     SubCommand::with_name("get-info")
-                        .about("Get information of ons name")
+                        .about("Get information of uns name")
                         .arg(
                             Arg::with_name("name")
                                 .value_name("Name")
                                 .takes_value(true)
                                 .index(1)
                                 .required(true)
-                                .help("Ons name"),
+                                .help("Uns name"),
                         )                                       
                         .arg(owner_address_arg()),
                 )
                 .subcommand(
                     SubCommand::with_name("get-list-by-owner")
-                        .about("Get list by owner of ons name")
+                        .about("Get list by owner of uns name")
                         .arg(
                             Arg::with_name("owner_address")
                                 .value_name("Owner Address")
                                 .takes_value(true)
                                 .index(1)
                                 .required(true)
-                                .help("Owner of ons name"),
+                                .help("Owner of uns name"),
                         )
                         .arg(
                             Arg::with_name("page")
@@ -1315,14 +1315,14 @@ impl OnsSubCommand for App<'_, '_> {
                 )
                 .subcommand(
                     SubCommand::with_name("get-list-by-parent")
-                        .about("Get list by parent name of ons")
+                        .about("Get list by parent name of uns")
                         .arg(
                             Arg::with_name("parent_name")
                                 .value_name("Parent Name")
                                 .takes_value(true)
                                 .index(1)
                                 .required(true)
-                                .help("Parent name of ons"),
+                                .help("Parent name of uns"),
                         )
                         .arg(
                             Arg::with_name("page")
@@ -1345,7 +1345,7 @@ impl OnsSubCommand for App<'_, '_> {
                 )
                 .subcommand(
                     SubCommand::with_name("get-all-wildcard-names")
-                        .about("Get all wildcard names of ons")
+                        .about("Get all wildcard names of uns")
                         .arg(
                             Arg::with_name("wildcard_name")
                                 .value_name("Wildcard Name")
@@ -1360,7 +1360,7 @@ impl OnsSubCommand for App<'_, '_> {
                                 .takes_value(true)
                                 .index(2)
                                 .required(true)
-                                .help("Parent name of ons"),
+                                .help("Parent name of uns"),
                         )
                         .arg(
                             Arg::with_name("page")
