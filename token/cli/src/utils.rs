@@ -14,7 +14,7 @@ use {
     },
     tokio::time::sleep,
 };
-pub const ONS_PROGRAM_ID: &str = "unLUujZuXm7dJoZXwLanuVKBbeUHUDaJ85R9Z8FjLKR";
+pub const ONS_PROGRAM_ID: &str = "unA7bKE4THUFJ4ECJrLKgiRUyc8vWXqRcMKckgWe287";
 pub const ONS_API_URL: &str = "http://192.168.204.128:5056";
 pub const VOUCHER_PROGRAM_ID: &str = "votV1qo18w3JMKX8wUAmgvdAy2dDXVc9cLUy6x5XwsQ";
 pub const TOKEN2022_PROGRAM_ID: &str = "Token9ADbPtdFC3PjxaohBLGw2pgZwofdcbj6Lyaw6c";
